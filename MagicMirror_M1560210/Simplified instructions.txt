@@ -1,0 +1,10 @@
+1. Copy all the files inside here into ..\MagicMirror_M1560210\KinectSDK directory
+Dont worry if some files are overwritten. I have slightly remodified them for this algorithm to work.
+2. Open Visual Studios 2010. Add their file links in the solution explorer by clicking add->existing item
+3. Find those recently copied over files and add accordingly
+
+Refer to earlier instructions if unclear
+
+
+Gesture detection:
+1. Wave your left and right hand at shoulder level. Output will be shown in the console window.

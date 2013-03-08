@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BD4EE545-230D-44B2-A48B-B0047C934341}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>KinectSDK</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\3rdParty\glew-1.7.0\include;..\3rdParty\freeglut-2.8.0\include;..\3rdParty\glm-0.9.3.4;..\3rdParty\tinyxml2-master;$(IncludePath)</IncludePath>
+    <LibraryPath>..\3rdParty\glew-1.7.0\lib;..\3rdParty\freeglut-2.8.0\lib\x86\Debug;..\3rdParty\soil\Simple OpenGL Image Library\lib;..\3rdParty\PhysX-3.2.0\Lib\win32;..\3rdParty\APEXSDK-1.2\lib\vc10win32-PhysX_3.2;..\3rdParty\APEXSDK-1.2\shared\SampleFramework\framework\lib\vc10win32;..\3rdParty\APEXSDK-1.2\shared\SampleFramework\renderer\lib\vc10win32;..\3rdParty\tinyxml2-master;C:\Users\Magic Mirror\Desktop\workingChong\TIC\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\3rdParty\glew-1.7.0\include;..\3rdParty\freeglut-2.8.0\include;..\3rdParty\glm-0.9.3.4;$(IncludePath)</IncludePath>
+    <LibraryPath>..\3rdParty\glew-1.7.0\lib;..\3rdParty\freeglut-2.8.0\lib\x86\;..\3rdParty\soil\Simple OpenGL Image Library\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\3rdParty\ffmpeg\include\msinttypes-r26;..\3rdParty\ffmpeg\include;C:\Program Files\Microsoft SDKs\Kinect\v1.5\inc;C:\OpenCV2.1\include\opencv;..\I2R_Include;..\3rdParty\APEXSDK-1.2\shared\general\shared;..\3rdParty\PhysX-3.2.0\Include;..\3rdParty\APEXSDK-1.2\framework\public;..\3rdParty\APEXSDK-1.2\public;..\3rdParty\APEXSDK-1.2\framework\public\PhysX3;..\3rdParty\APEXSDK-1.2\NxParameterized\public;..\3rdParty\APEXSDK-1.2\shared\external\include;..\3rdParty\APEXSDK-1.2\shared\SampleFramework\renderer\include;..\3rdParty\APEXSDK-1.2\shared\SampleFramework\platform\include;..\3rdParty\APEXSDK-1.2\shared\SampleFramework\framework\include;..\3rdParty\APEXSDK-1.2\module\clothing\public;..\3rdParty\PhysX-3.2.0\Source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../Debug;../3rdParty/ffmpeg/lib;C:\Program Files\Microsoft SDKs\Kinect\v1.5\lib\x86;C:\OpenCV2.1\lib;../3rdParty/glew-1.7.0/lib;../3rdParty/freeglut-2.8.0/lib/x86/Debug;../I2R_Include;C:\Users\Edwin Tan\Desktop\MagicMirror_M1560210\KinectSDK\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SOIL.lib;Kinect10.lib;cv210.lib;cvaux210.lib;cxcore210.lib;highgui210.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;swscale.lib;tinyxml_lib.lib;C:/Users/Edwin Tan/Desktop/MagicMirror_M1560210/Debug/MCloth2D.lib;C:/Users/Edwin Tan/Desktop/MagicMirror_M1560210/Debug/MCloth3D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+    </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\3rdParty\ffmpeg\include\msinttypes-r26;..\3rdParty\ffmpeg\include;C:\Program Files\Microsoft SDKs\Kinect\v1.5\inc;C:\OpenCV2.1\include\opencv;..\I2R_Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../3rdParty/ffmpeg/lib;C:\Program Files\Microsoft SDKs\Kinect\v1.5\lib\x86;C:\OpenCV2.1\lib;../3rdParty/glew-1.7.0/lib;../3rdParty/freeglut-2.8.0/lib/x86/Debug;../I2R_Include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SOIL.lib;Kinect10.lib;cv210.lib;cvaux210.lib;cxcore210.lib;highgui210.lib;MCloth2D.lib;MCloth3D.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Camera_Kinect.cpp" />
+    <ClCompile Include="Gesture.cpp" />
+    <ClCompile Include="GestureController.cpp" />
+    <ClCompile Include="GestureReceiver.cpp" />
+    <ClCompile Include="GestureSource.cpp" />
+    <ClCompile Include="gui.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Segments\WaveLeftSegments.cpp" />
+    <ClCompile Include="Segments\WaveRightSegments.cpp" />
+    <ClCompile Include="skeleton.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera_Kinect.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="Gesture.h" />
+    <ClInclude Include="GestureController.h" />
+    <ClInclude Include="GestureReceiver.h" />
+    <ClInclude Include="GestureSource.h" />
+    <ClInclude Include="gui.h" />
+    <ClInclude Include="Segments\WaveLeftSegments.h" />
+    <ClInclude Include="Segments\WaveRightSegments.h" />
+    <ClInclude Include="skeleton.h" />
+    <ClInclude Include="SOIL.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Data\ClothesList.xml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

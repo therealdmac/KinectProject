@@ -1,0 +1,35 @@
+Before compiling:
+copy all the files into your MagicMirror M1560210/KinectSDK folder. The files should contain:
+Camera_Kinect.cpp and its header file
+GestureController.cpp and its header file
+Gesture.cpp and its header file
+GestureReceiver.cpp + GestureSource.cpp(not required anymore)
+Segments folder, which contains the smaller broken up gestures and their header files
+stdafx.h-links to all the .h files
+
+To compile:
+
+Copy these files into your magic mirror Kinect SDK folder(where all your source files 
+and header files are)
+Go to solution explorer in Visual C++(usually at the right hand side of the Visual C++ IDE)
+Right click on the folders(source, header), and click add->existing items
+In the folder browser, add the respective header and source files mentioned in the step before compiling. 
+Try not to add the wrong file into the wrong heading
+Add the segment folder in the solution explorer. This folder contains all the gestures broken up into segments
+Add existing segmented gesture items(same procedure as earlier) into the segments folder under 
+the solution explorer
+Build the code
+
+
+To use:
+
+Add all the relevant header files inside stdafx.h
+Create a gesture controller object in the cameraKinect.cpp
+Add the function gestureController->UpdateAllGestures2(Skeleton *data) inside the internal Kinect class
+where frames are constantly being updated(fps).
+
+...
+
+Misc:
+For other codeable gestures, code them in .cpp and .h and place them under the segments folder. 
+Add the relevant header files inside the main program(or stdafx.h) when u want to use those gestures later

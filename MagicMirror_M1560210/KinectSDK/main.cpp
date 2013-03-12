@@ -340,6 +340,11 @@ int garmentid_m = garmentid;
 int garmentid_f = garmentid;
 //end kevin vars
 
+//Edwin values
+double tempValueTurnedA = 0.0;
+double tempValueTurnedB = 0.0;
+//end Edwin
+
 
 //Removed by CCL- we will allocate these fixed size
 /*Stats  statsBags[NUM_BAGS];
@@ -1283,6 +1288,7 @@ void gui()
 			counter_b3 = counter_bl3 = 0; 
 
 		}
+		/*
 		//button 4 
 		if(4*skel->handR.u > 370+310 && 4*skel->handR.u < 370+450 && 4*skel->handR.v > 300 && 4*skel->handR.v < 520) counter_b4++;//b4
 		else if(4*skel->handL.u > 370+310 && 4*skel->handL.u < 370+450 && 4*skel->handL.v > 300 && 4*skel->handL.v < 520) counter_bl4++;
@@ -1294,6 +1300,7 @@ void gui()
 			button3D();
 			counter_b4 = counter_bl4 = 0; 
 		}
+		*/
 	}
 		skeletonflag = true;
 	}//end if of no skeleton
@@ -3287,6 +3294,9 @@ void keyupdate()
 	}
 
 	else if (camera->gesCtrl->GetGesture(1)->isDetected() == true) {
+		//take current clockwiseTraversing value and store it 
+		//tempValueTurnedA = clockwiseTraversing;
+		//printf_s("This is the degree traversed %d. \n", tempValueTurnedA);
 		clockwiseTraversingIncrement = (double)6;
 		//if current icons travelled for x amount distance
 		if (clockwiseTraversing < 124) {
@@ -3815,6 +3825,14 @@ void glutKeyboard (unsigned char key, int x, int y)
 			//adjustment to display user in center of TV screen
 			//glutPositionWindow(-2030,-400);
 			glutPositionWindow(50, 0);
+			//set the size to large enugh to cover TV length and 
+			glutReshapeWindow((1280)/1.2*ar, (960)/1.2);//2.35
+			break;
+
+		case '/':
+			//adjustment to display user in center of TV screen
+			//glutPositionWindow(-2030,-400);
+			glutPositionWindow(600, 0);
 			//set the size to large enugh to cover TV length and 
 			glutReshapeWindow((1280)/1.2*ar, (960)/1.2);//2.35
 			break;

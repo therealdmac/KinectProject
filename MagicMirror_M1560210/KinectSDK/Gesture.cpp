@@ -51,15 +51,6 @@ void Gesture::detectGestureParts(Skeleton *data)
 		default:
 		break;
 	}	
-	/*
-	if (theGestureType == 1) {
-		wavLeft->waveleftsegment1(data);
-		wavLeft->waveleftsegment2(data);
-	} else if (theGestureType == 2) {
-		wavRight->waveRightSegment1(data);
-		wavRight->waveRightSegment2(data);
-	}
-	*/
 }
 
 void Gesture::UpdateGesture(Skeleton *data) 
@@ -173,7 +164,6 @@ void Gesture::UpdateGesture(Skeleton *data, int frames)
 				printf_s("Waving Right gesture detected at frame %d. \n", frames);
 				printf_s("test %d. \n", detectpartnum2);
 				Reset();
-				printf_s("test %d. \n", detectpartnum2);
 			}
 		}
 		break;

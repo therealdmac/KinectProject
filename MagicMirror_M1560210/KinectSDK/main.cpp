@@ -2504,7 +2504,7 @@ void glutDisplay (void)
 			else {
 				switch (menuFlag) {
 					case 0:
-						DrawBG(dataWHome);
+						DrawBG(dataWHome);//dataWHome
 						break;
 					case 1:
 						DrawBG(dataWDetails);
@@ -2516,7 +2516,7 @@ void glutDisplay (void)
 						DrawBG(dataWAdd);
 						break;
 					default:
-						DrawBG(dataWDefault);
+						DrawBG(dataWDefault);//dataWDefault
 				}
 			}
 
@@ -2598,7 +2598,7 @@ void glutDisplay (void)
 			else {
 				switch (menuFlag) {
 					case 0:
-						DrawBG(dataHome);
+						DrawBG(dataf2);//dataHome
 						break;
 					case 1:
 						DrawBG(dataDetails);
@@ -2610,7 +2610,7 @@ void glutDisplay (void)
 						DrawBG(dataAdd);
 						break;
 					default:
-						DrawBG(dataDefault);
+						DrawBG(dataf2);//dataDefault
 				}
 			}
 		}
@@ -2625,7 +2625,7 @@ void glutDisplay (void)
 		oldGarmentID_F = -1;
 		oldGarmentID_M = -1;
 		oldGarmentID_B = -1;
-		DrawBG(dataWDefault);
+		DrawBG(dataf2);//dataWDefault
 	}
 	//check_gl_error
 //END

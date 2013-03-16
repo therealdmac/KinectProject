@@ -9,9 +9,6 @@
 //kevin
 #include "math.h"
 //end
-//Edwin
-#include <iostream>
-//end
 
 
 //video player ffmpeg
@@ -40,7 +37,7 @@ char* path = ::getenv("MAGIC_MIRROR_DATA_ROOT");
 char newpath[MAX_PATH]={'\0'};
 
 //play video 
-//CvCapture* g_Capture;// = "C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/Screensaver.avi";
+//CvCapture* g_Capture;// = "D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/Screensaver.avi";
 
 //color, depth and user images. User image shows depth of main user pixels only 
 IplImage* cImg = cvCreateImage(cvSize(COLOR_RES_X, COLOR_RES_Y), IPL_DEPTH_8U, 4); 
@@ -158,10 +155,6 @@ bool showPanel = false;
 int panelFlag = 0;
 int menuFlag = 0;
 //END
-
-//GestureDetection
-bool isDetected = false;
-//end
 
 IplImage *detail1, *frame1, *frame2, *frame3;
 unsigned char *dataf1c;
@@ -354,11 +347,6 @@ int f_width[100];
 int f_height[100]; 
 int f_nchannels[100];
 //end kevin2 vars
-
-//Edwin values
-double tempValueTurnedA = 0.0;
-double tempValueTurnedB = 0.0;
-//end Edwin
 
 
 //Removed by CCL- we will allocate these fixed size
@@ -947,7 +935,7 @@ void button3D(){
 	ismale = 0;
 	bShowDress2D = 0;
 	garmentid = 1 + pCloth3D->GetGarmentID();//added 23aug
-	printf("button3D garmentid = %d",garmentid);
+	//printf("button3D garmentid = %d",garmentid);
 }
 
 void mainMenuButton() {
@@ -1303,7 +1291,6 @@ void gui()
 			counter_b3 = counter_bl3 = 0; 
 
 		}
-		/*
 		//button 4 
 		if(4*skel->handR.u > 370+310 && 4*skel->handR.u < 370+450 && 4*skel->handR.v > 300 && 4*skel->handR.v < 520) counter_b4++;//b4
 		else if(4*skel->handL.u > 370+310 && 4*skel->handL.u < 370+450 && 4*skel->handL.v > 300 && 4*skel->handL.v < 520) counter_bl4++;
@@ -1315,7 +1302,6 @@ void gui()
 			button3D();
 			counter_b4 = counter_bl4 = 0; 
 		}
-		*/
 	}
 		skeletonflag = true;
 	}//end if of no skeleton
@@ -1961,7 +1947,6 @@ void DrawFrames(unsigned char* data, int width, int height, int frameId) {
 		glTexCoord2f(0.0, (height-1)/(float)2048);
 		glVertex2f(-width/(float)2, height/(float)2);
 	glEnd();
-	//comment out this line if it lags too much
 	showicon(width-30, height-30, frameId);
 }
 //END
@@ -2197,7 +2182,7 @@ void screenshot(void)
 		cvResize(img2, destination);
 		/* Add both images
 	    Note that now both images have 'same' width & height */
-		IplImage *img1 = cvLoadImage("C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/photo2.png", 1);	
+		IplImage *img1 = cvLoadImage("D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/photo2.png", 1);	
 		
 		CvRect rect = cvRect(108, 108, img1->width-216, img1->height-384);
  
@@ -2394,14 +2379,8 @@ wchar_t buffer[MAX_PATH]={L'\0'};
 void glutDisplay (void)
 //------------------------------------------------------------------------
 {
-	
-
 	//kevin keypress
 	keyupdate();
-	//end
-	
-	//Edwin 06032013
-	//keyUpdateFromGesture();
 	//end
 
 	cnt++;
@@ -2637,7 +2616,7 @@ void glutDisplay (void)
 			else {
 				switch (menuFlag) {
 					case 0:
-						DrawBG(dataWHome);//dataWHome
+						DrawBG(dataWHome);
 						break;
 					case 1:
 						DrawBG(dataWDetails);
@@ -2649,7 +2628,7 @@ void glutDisplay (void)
 						DrawBG(dataWAdd);
 						break;
 					default:
-						DrawBG(dataWDefault);//dataWDefault
+						DrawBG(dataWDefault);
 				}
 			}
 
@@ -2731,7 +2710,7 @@ void glutDisplay (void)
 			else {
 				switch (menuFlag) {
 					case 0:
-						DrawBG(dataf2);//dataHome
+						DrawBG(dataHome);
 						break;
 					case 1:
 						DrawBG(dataDetails);
@@ -2743,7 +2722,7 @@ void glutDisplay (void)
 						DrawBG(dataAdd);
 						break;
 					default:
-						DrawBG(dataf2);//dataDefault
+						DrawBG(dataDefault);
 				}
 			}
 		}
@@ -2758,7 +2737,7 @@ void glutDisplay (void)
 		oldGarmentID_F = -1;
 		oldGarmentID_M = -1;
 		oldGarmentID_B = -1;
-		DrawBG(dataf2);//dataWDefault
+		DrawBG(dataWDefault);
 	}
 	//check_gl_error
 //END
@@ -3098,13 +3077,13 @@ void smoothWheelToCenter()
 		return;
 	}
 	if (clockwiseTraversingIncrement > 0){
+		//any higher than 2.0 may affect wheel not stopping in time when scrolling fast
 		clockwiseTraversingIncrement = 2.0;
 	}
 	else if (clockwiseTraversingIncrement < 0){
 		clockwiseTraversingIncrement = -2.0;
 	}
 }
-//loads wheel positions from memory
 //kevin2 start
 //loads wheel positions from memory
 void loadWheel()
@@ -3427,86 +3406,16 @@ void glutKeyboardUp (unsigned char key, int x, int y)
 }
 void keyupdate()
 {
-	
 	if (key_state['j']==true){
 		clockwiseTraversingIncrement = (double)rotateIncrement;
-		//printf_s("This is the degree traversed %d. \n", clockwiseTraversing);
-		cout << "The degree it is now at: ";
-		cout << clockwiseTraversing;
-		cout << endl;
 	}
 	else if (key_state['k']==true){
 		clockwiseTraversingIncrement = (double)(-rotateIncrement);
 	}
-
-	else if (camera->gesCtrl->GetGesture(1)->isDetected() == true) {
-		//take current clockwiseTraversing value and store it 
-		//tempValueTurnedA = clockwiseTraversing;
-		//printf_s("This is the degree traversed %d. \n", tempValueTurnedA);
-		clockwiseTraversingIncrement = (double)6;
-		//if current icons travelled for x amount distance
-		if (clockwiseTraversing < 124) {
-			//set it to false
-			camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
-		}
-		
-	}
-	//else if the waving right gesture is detected
-	else if (camera->gesCtrl->GetGesture(2)->isDetected() == true) {
-		clockwiseTraversingIncrement = (double)(-6);
-		if (clockwiseTraversing > 236) {
-			camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
-		}
-	}
 	else {
 		smoothWheelToCenter();
 	}
 }
-
-//Edwin 06032013
-void keyUpdateFromGesture() 
-{
-	/*
-	pseudocode
-	if wave left detected
-	turn wheel down for a certain amount of degrees
-	set the gesture detected boolean value to false
-	else if wave right detected
-	turn wheel up for a certain amount of degrees
-	set the gesture detected boolean value to false
-	else
-	smooth wheel to centre
-	*/
-
-	//edit accordingly
-	//if the waving left gesture is detected
-	
-	if (camera->gesCtrl->GetGesture(1)->isDetected() == true) {
-		clockwiseTraversingIncrement = (double)6;
-		//camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
-		//if current icons travelled for x amount distance
-		if (clockwiseTraversing < 150) {
-			camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
-		}
-		//set it to false
-	}
-	//else if the waving right gesture is detected
-	else if (camera->gesCtrl->GetGesture(2)->isDetected() == true) {
-		clockwiseTraversingIncrement = (double)(-6);
-		if (clockwiseTraversing > 236) {
-			camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
-		}
-		//camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
-	}
-	else {
-		//camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
-		//camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
-		smoothWheelToCenter();
-	}
-	
-}
-//end
-
 //wheel movements
 void moveWheel()
 {
@@ -3970,17 +3879,9 @@ void glutKeyboard (unsigned char key, int x, int y)
 		case 'w':
 			//adjustment to display user in center of TV screen
 			//glutPositionWindow(-2030,-400);
-			glutPositionWindow(50, 0);
+			glutPositionWindow(200, 0);
 			//set the size to large enugh to cover TV length and 
-			glutReshapeWindow((1280)/1.2*ar, (960)/1.2);//2.35
-			break;
-
-		case '/':
-			//adjustment to display user in center of TV screen
-			//glutPositionWindow(-2030,-400);
-			glutPositionWindow(600, 0);
-			//set the size to large enugh to cover TV length and 
-			glutReshapeWindow((1280)/1.2*ar, (960)/1.2);//2.35
+			glutReshapeWindow(1280*ar, 960);//2.35
 			break;
 
 		case 'n':
@@ -4052,14 +3953,7 @@ void glutKeyboard (unsigned char key, int x, int y)
 			sprintf(newpath, "%s/userImage%d.png", directory, counter);
 			cvSaveImage(newpath, uImg); 
 			break;
-			/*
-		case 'j':
-			clockwiseTraversingIncrement = (double)rotateIncrement;
-			break;
-		case 'k':
-			clockwiseTraversingIncrement = (double)(-rotateIncrement);
-			break;
-			*/
+
 		// ----------------------------------------------------
 		// Daryl Mcintyre - Keypress access to menu buttons
 		// ----------------------------------------------------
@@ -4131,14 +4025,8 @@ void glutIdle (void)
 	static float start = glutGet(GLUT_ELAPSED_TIME);
 	float current = glutGet(GLUT_ELAPSED_TIME);
 
-	
-
 	//kevin
 	keyupdate();
-	//end
-
-	//Edwin 06032013
-	//keyUpdateFromGesture();
 	//end
 
 	if((current-start) > TIMEOUT) {
@@ -4197,7 +4085,7 @@ void glutIdle (void)
 		for(int i=0;i<NUM_BAGS;i++)   {
 			Stats s = statsBags[i];
 			fprintf(fp, "Bag %d, %d, %d, %d, %f\n",i+1, s.counts, s.nPictures, s.nUploads, s.totalTimeSpent);	
-			printf("Bag %d, %d, %d, %d, %f\n",i+1, s.counts, s.nPictures, s.nUploads, s.totalTimeSpent);	
+			//printf("Bag %d, %d, %d, %d, %f\n",i+1, s.counts, s.nPictures, s.nUploads, s.totalTimeSpent);	
 			statsBags[i].counts = statsBags[i].nPictures = statsBags[i].nUploads = statsBags[i].totalTimeSpent = 0;
 		}
 		for(int i=0;i<NUM_DRESSES_FEMALE;i++) {
@@ -4327,7 +4215,7 @@ void main(int argc, char* argv[])
 	set_timer();
 
 	//-------------
-//	g_Capture = cvCaptureFromAVI("C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/Screensaver.mov");
+//	g_Capture = cvCaptureFromAVI("D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/Screensaver.mov");
 
 	detail1 = frame1 = frame2 = frame3 = NULL;
 	frame2flag = true; //categories
@@ -4339,50 +4227,49 @@ void main(int argc, char* argv[])
 	int height1 = 0;
 	int nchannels1 = 0; 
 	qrCodeData = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/QRCode.bmp",
-				
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/QRCode.bmp",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 		/*		
 	datad1 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/detail1.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/detail1.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datad2 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/detail2.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/detail2.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datadbag = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/detail3.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/detail3.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	*/
 	dataf1c =  SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/interfaceclothes.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/interfaceclothes.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	dataf1n =  SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/interfacenone.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/interfacenone.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	dataf1 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/interfacebag.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/interfacebag.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	dataf2 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/Categories.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/Categories.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datap1 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/preview.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/preview.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				); 
@@ -4392,239 +4279,240 @@ void main(int argc, char* argv[])
 				,SOIL_LOAD_AUTO
 				);
 	datafinger = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/circle0.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/circle0.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datafinger1 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/circle1.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/circle1.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datafinger2 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/circle2.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/circle2.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datafinger3 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/circle3.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/circle3.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datafinger4 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/circle4.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/circle4.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datasaving1 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/uploadsuccessful.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/uploadsuccessful.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 
 	//By SF
 	dataDefault =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/default.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/default.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataHome =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/home.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/home.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataPhoto =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/photo.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/photo.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataDetails =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/details.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/details.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataAdd =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/add.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/add.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 
 	dataP =			SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/panel.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/panel.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataPHome =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/panelplushome.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/panelplushome.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataPMen =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/panelplusmen.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/panelplusmen.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataPLadies =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/panelplusladies.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/panelplusladies.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataPBag =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/panelplusbag.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/panelplusbag.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataP3d =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screen/panelplus3d.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screen/panelplus3d.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 
 	dataAlbum =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_default.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_default.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataABack =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_back.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_back.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataALike =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_like.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_like.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataALikeOn =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_like2.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_like2.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataAShare =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_share.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_share.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataADiscard =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_discard.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbum/a_discard.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 
 	dataFrame =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/frames/frame_small.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/frames/frame_small.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataFrameBig =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/frames/frame_large.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/frames/frame_large.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 
 	//images with wheels
 	dataWDefault =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/default1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/default1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWHome =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/home1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/home1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWPhoto =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/photo1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/photo1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWDetails =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/details1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/details1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWAdd =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/add1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/add1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 
 	dataWP =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panel1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panel1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWPHome =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panelplushome1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panelplushome1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWPMen =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panelplusmen1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panelplusmen1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWPLadies =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panelplusladies1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panelplusladies1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWPBag =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panelplusbag1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panelplusbag1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWP3d =		SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panelplus3d1.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenwheel/panelplus3d1.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 
 	dataWAlbum =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_default.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_default.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWABack =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_back.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_back.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWALike =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_like.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_like.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWALikeOn =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_like2.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_like2.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWAShare =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_share.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_share.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
 	dataWADiscard =	SOIL_load_image(
-					"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_discard.png",
+					"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/v2/bg/screenalbumwheel/aw_discard.png",
 					&width,&height,&nchannels
 					,SOIL_LOAD_AUTO
 					);
+
 //END
 
 	/*
 	datacount1 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/count1.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/count1.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datacount2 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/count2.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/count2.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datacount3 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/count3.png",
+				"D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/count3.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
@@ -4691,7 +4579,7 @@ void main(int argc, char* argv[])
 	//}
 
 	/*
-	pCloth3D->LoadObjMesh("C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Models/Garment1/Garment1.obj");  
+	pCloth3D->LoadObjMesh("D:/Work/yr4/CS3283/I2RStuff/MagicMirror_Data_M1560210/Data/Models/Garment1/Garment1.obj");  
 	pCloth3D->InitReferenceValues();
 
 	for(int i=0;i<NUM_3DCLOTHES;i++) {
@@ -4710,6 +4598,7 @@ void main(int argc, char* argv[])
 	NUM_BAGS=mcloth->GetNumBags();
 	NUM_3DCLOTHES = pCloth3D->GetNumDresses();
 	// Setup the OpenGL projection matrix
+
 	//kevin2 start
 	maxBags = mcloth->NUM_BAGS;
 	maxMale = mcloth->NUM_DRESSES_MALE;
@@ -4719,6 +4608,7 @@ void main(int argc, char* argv[])
 	checkfSelect();
 	loadicons();
 	//kevin2 end
+
 	//kevin edited
 	//Aspect ratio fix
 	ar = glutGet( GLUT_WINDOW_WIDTH ) / (double)glutGet( GLUT_WINDOW_HEIGHT );

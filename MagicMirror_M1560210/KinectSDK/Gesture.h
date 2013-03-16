@@ -88,8 +88,8 @@ public:
 	/// Occurs when [gesture recognised].
 	/// </summary>
 	//public event EventHandler<GestureEventArgs> GestureRecognized;
-	GestureSource gesSrc;
-	GestureReceiver gesRcv;
+	//GestureSource gesSrc;
+	//GestureReceiver gesRcv;
 
 	/// <summary>
 	/// Updates the gesture.

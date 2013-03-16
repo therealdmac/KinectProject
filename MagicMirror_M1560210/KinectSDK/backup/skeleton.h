@@ -14,13 +14,13 @@ class Skeleton
 public:
 	vector6 shoulderL, shoulderR, shoulderC;
 	vector6 hipL, hipR, hipC;
-	//vector6 elbowL, elbowR;//
-	//vector6 footL, footR;//
-	//vector6 wristL, wristR;//
+	//vector6 elbowL, elbowR;
+	//vector6 footL, footR;
+	//vector6 wristL, wristR;
 	vector6 handL, handR;
-	//vector6 kneeL, kneeR;//
-	//vector6 ankleL, ankleR;//
-	//vector6 spine;//
+	//vector6 kneeL, kneeR;
+	//vector6 ankleL, ankleR;
+	//vector6 spine;
 	vector6 head;
 	vector6 COM;
 	Vector4 floorPlane;

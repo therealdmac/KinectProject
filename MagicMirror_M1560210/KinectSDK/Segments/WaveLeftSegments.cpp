@@ -16,10 +16,10 @@ WaveLeftSegments::WaveLeftSegments() {
 
 int WaveLeftSegments::waveleftsegment1(Skeleton *skel){
 	// hand above elbow
-	if (skel->handL.y > skel->elbowL.y)//y
+	if (skel->handL.y > skel->shoulderL.y)//y
 	{
 		// hand right of elbow
-		if (skel->handL.x > skel->elbowL.x)//x
+		if (skel->handL.x > skel->shoulderL.x)//x
 		{
 			part1Success = true;
 			return 2;//success
@@ -37,10 +37,10 @@ int WaveLeftSegments::waveleftsegment1(Skeleton *skel){
 
 int WaveLeftSegments::waveleftsegment2(Skeleton *skel){
 	// hand above elbow
-	if (skel->handL.y > skel->elbowL.y)//y
+	if (skel->handL.y > skel->shoulderL.y)//y
 	{
 	// hand right of elbow
-		if (skel->handL.x < skel->elbowL.x)//x
+		if (skel->handL.x < skel->shoulderL.x)//x
 		{
 			part2Success = true;
 			return 2;

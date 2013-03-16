@@ -32,19 +32,15 @@ CameraKinect::CameraKinect(BYTE *color_buf,
 	bUserChanged = false;
 
 	t_start = GetTickCount();	//for frame rate calculation
-	nFrames = 0;				//for frame rate calculation-try to pass it to gesture recognition
+	nFrames = 0;				//for frame rate calculation
 	
 	floorPlane.x = 0.085814685;
 	floorPlane.y = 0.96914744;
 	floorPlane.z = -0.23106116;
 	floorPlane.w = 1.52;
 
-	
 	//initialize the camera
 	Init(); 
-	//create the gesture controller obj
-	gesCtrl = new GestureController();
-	//GestureController gesCtrl2;
 }
 
 //------------------------------------------------------------------------
@@ -133,9 +129,6 @@ bool CameraKinect::Init( )
 
 	if( FAILED( hr ) ) return false;
 
-	//create the gesture controller obj
-	//GestureController *gesCtrl = new GestureController();
-
 	return true;
 }
 
@@ -168,7 +161,6 @@ void CameraKinect::Update(DWORD* pColorBuffer)
 	if(s) s = GetDepthFrame(false);
 	if(s) s = GetSkeletonFrame();
 	if(!s) skel->status = false;
-	//gesCtrl.UpdateAllGestures(skel);
 
 	SegmentUser();
 
@@ -314,8 +306,6 @@ bool CameraKinect::GetSkeletonFrame(  )
 				currentUser = i;
 			}
 		}
-		//update all the skeleton data frame by frame
-		//gesCtrl.UpdateAllGestures(skel);
 
 	}
 
@@ -330,8 +320,6 @@ bool CameraKinect::GetSkeletonFrame(  )
 
 		skel->status = true;
 		UpdateSkeleton();
-
-		//gesCtrl->UpdateAllGestures(skel);
 
 		//get the bone orientations
 		NUI_SKELETON_BONE_ORIENTATION boneOrientations[NUI_SKELETON_POSITION_COUNT];
@@ -391,20 +379,20 @@ void CameraKinect::UpdateSkeleton()
 	CopySkel(&skel->shoulderL,	NUI_SKELETON_POSITION_SHOULDER_LEFT);
 	CopySkel(&skel->shoulderR,	NUI_SKELETON_POSITION_SHOULDER_RIGHT);
 
-		//CopySkel(&skel->elbowL,		NUI_SKELETON_POSITION_ELBOW_LEFT);//
-		//CopySkel(&skel->elbowR,		NUI_SKELETON_POSITION_ELBOW_RIGHT);//
+	//	CopySkel(&skel->elbowL,		NUI_SKELETON_POSITION_ELBOW_LEFT);
+	//	CopySkel(&skel->elbowR,		NUI_SKELETON_POSITION_ELBOW_RIGHT);
 	CopySkel(&skel->handL,		NUI_SKELETON_POSITION_HAND_LEFT);
 	CopySkel(&skel->handR,		NUI_SKELETON_POSITION_HAND_RIGHT);
-	//	CopySkel(&skel->footL,		NUI_SKELETON_POSITION_FOOT_LEFT);//
-	//	CopySkel(&skel->footR,		NUI_SKELETON_POSITION_FOOT_RIGHT);//
-	//	CopySkel(&skel->ankleL,		NUI_SKELETON_POSITION_ANKLE_LEFT);//
-	//	CopySkel(&skel->ankleR,		NUI_SKELETON_POSITION_ANKLE_RIGHT);//
-	//	CopySkel(&skel->kneeL,		NUI_SKELETON_POSITION_KNEE_LEFT);//
-	//	CopySkel(&skel->kneeR,		NUI_SKELETON_POSITION_KNEE_RIGHT);//
-		//CopySkel(&skel->wristL,		NUI_SKELETON_POSITION_WRIST_LEFT);//
-		//CopySkel(&skel->wristR,		NUI_SKELETON_POSITION_WRIST_RIGHT);//
+	//	CopySkel(&skel->footL,		NUI_SKELETON_POSITION_FOOT_LEFT);
+	//	CopySkel(&skel->footR,		NUI_SKELETON_POSITION_FOOT_RIGHT);
+	//	CopySkel(&skel->ankleL,		NUI_SKELETON_POSITION_ANKLE_LEFT);
+	//	CopySkel(&skel->ankleR,		NUI_SKELETON_POSITION_ANKLE_RIGHT);
+	//	CopySkel(&skel->kneeL,		NUI_SKELETON_POSITION_KNEE_LEFT);
+	//	CopySkel(&skel->kneeR,		NUI_SKELETON_POSITION_KNEE_RIGHT);
+	//	CopySkel(&skel->wristL,		NUI_SKELETON_POSITION_WRIST_LEFT);
+	//	CopySkel(&skel->wristR,		NUI_SKELETON_POSITION_WRIST_RIGHT);
 	CopySkel(&skel->head,		NUI_SKELETON_POSITION_HEAD);
-		//CopySkel(&skel->spine,		NUI_SKELETON_POSITION_SPINE);//
+	//	CopySkel(&skel->spine,		NUI_SKELETON_POSITION_SPINE);
 
 	skel->COM.x = SkeletonFrame.SkeletonData[currentUser].Position.x;
 	skel->COM.y = SkeletonFrame.SkeletonData[currentUser].Position.y;
@@ -475,29 +463,12 @@ double CameraKinect::GetFrameRate()
 	DWORD t_end = GetTickCount();
 	double t_elapsed = t_end - t_start;
 
-	//try to assign all the gestures in the gesture list in gesturecontroller
-	//assign the frames value to all of them
-
-	//below vector list iterator works
-	/*
-	for (std::vector<Gesture*>::iterator g = gesCtrl->gestures.begin(); g != gesCtrl->gestures.end(); g++) {
-		(*g)->updateFrameRate(nFrames); 
-		//(*g)->printFrameRate();
-		//
-	}*/
-	//update all the gestures in gesture controller for all frames
-	gesCtrl->UpdateAllGestures2(skel, nFrames);
-	
 	if(t_elapsed >= 5000)
 	{		
 		double fps = (double) nFrames / t_elapsed * 1000;
 		t_start = t_end;
 		nFrames = 0;
 		printf("frame rate is %lg\n", fps);
-		//for testing
-		//gesRcv.hookEvent(&gesSrc);
-		//__raise gesSrc.MyEvent(123);
-		//gesRcv.unhookEvent(&gesSrc);
 		return fps;
 	}
 	return -1;	

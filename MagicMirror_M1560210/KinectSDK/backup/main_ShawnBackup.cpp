@@ -1,4 +1,3 @@
- 
 #include "stdafx.h" 
 #include "SOIL.h"
 #include "gui.h"
@@ -6,12 +5,6 @@
 #include <gl/wglew.h> 
 #include <gl/freeglut.h>
 #include "tinyxml2.h"
-//kevin
-#include "math.h"
-//end
-//Edwin
-#include <iostream>
-//end
 
 
 //video player ffmpeg
@@ -34,13 +27,13 @@
 #pragma comment(lib, "PxTask.lib")
 #pragma comment(lib, "PhysXProfileSDK.lib")
 #include <cassert>
-//#define //check_gl_error assert(glGetError() == GL_NO_ERROR);
+//#define CHECK_GL_ERROR assert(glGetError() == GL_NO_ERROR);
 
 char* path = ::getenv("MAGIC_MIRROR_DATA_ROOT");
 char newpath[MAX_PATH]={'\0'};
 
 //play video 
-//CvCapture* g_Capture;// = "C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/Screensaver.avi";
+//CvCapture* g_Capture;// = "C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/Screensaver.avi";
 
 //color, depth and user images. User image shows depth of main user pixels only 
 IplImage* cImg = cvCreateImage(cvSize(COLOR_RES_X, COLOR_RES_Y), IPL_DEPTH_8U, 4); 
@@ -133,24 +126,24 @@ int counter_bl4 = 0;
 
 int counter_trans = 0;
 
-int counter_sh = 0; 
-int counter_save = 0; 
+int counter_sh = 0;
+int counter_save = 0;
 bool flag1 = false;
 bool flag2 = false;
-bool flag3 = false; 
+bool flag3 = false;
 bool flag4 = false;
-bool flag5 = false; 
-bool detail1flag = false; 
-bool frame1flag = false; 
-bool frame2flag = false; 
+bool flag5 = false;
+bool detail1flag = false;
+bool frame1flag = false;
+bool frame2flag = false;
 bool previewflag = false;
 bool photoflag = false;
 bool set1flag = false;
-bool set2flag = false; 
+bool set2flag = false;
 bool skeletonflag = false;
 bool screenshotflag = false;
-bool savingflag = false; 
-bool showclothesflag = false; 
+bool savingflag = false;
+bool showclothesflag = false;
 
 //Declarations NEW 240113
 bool showWheel = true;	//set to true for test purposes. set to off afterwards. --SF
@@ -158,10 +151,6 @@ bool showPanel = false;
 int panelFlag = 0;
 int menuFlag = 0;
 //END
-
-//GestureDetection
-bool isDetected = false;
-//end
 
 IplImage *detail1, *frame1, *frame2, *frame3;
 unsigned char *dataf1c;
@@ -174,7 +163,6 @@ unsigned char *datad1;
 unsigned char *datad2;
 unsigned char *datadbag;
 
-//Declarations NEW 240113
 unsigned char *dataDefault;
 unsigned char *dataHome;
 unsigned char *dataPhoto;
@@ -193,6 +181,7 @@ unsigned char *dataALikeOn;
 unsigned char *dataAShare;
 unsigned char *dataADiscard;
 
+//Declarations NEW 270113
 unsigned char *dataFrame;
 int wFrame = 71;
 int hFrame = 122;
@@ -228,138 +217,6 @@ unsigned char *datasaving1;
 unsigned char *datacount1;
 unsigned char *datacount2;
 unsigned char *datacount3;
-
-//kevin2 vars start
-//speed of rotation multipliers
-//rotateIncrement must positive integer, default 2 is very slow. Adjust higher to turn wheel faster
-const int rotateIncrement = 6;
-//do not change these multipliers
-const float offsetCenterMultiplier = 1.0;
-const float offsetCenterLargeMultiplier = 1.0;
-const float normalMultiplier = 1.0;
-//frame scaling control
-const float fscaleMin=0.7;
-const float fscaleMax=1.0;
-float fscale1 = fscaleMax;
-float fscale2 = fscaleMin;
-float fscale3 = fscaleMin;
-float fscale4 = fscaleMin;
-float fscale5 = fscaleMin;
-float fscale6 = fscaleMin;
-float fscale1b = fscaleMax;
-float fscale2b = fscaleMin;
-float fscale3b = fscaleMin;
-float fscale4b = fscaleMin;
-float fscale5b = fscaleMin;
-float fscale6b = fscaleMin;
-float fscale1m = fscaleMax;
-float fscale2m = fscaleMin;
-float fscale3m = fscaleMin;
-float fscale4m = fscaleMin;
-float fscale5m = fscaleMin;
-float fscale6m = fscaleMin;
-float fscale1f = fscaleMax;
-float fscale2f = fscaleMin;
-float fscale3f = fscaleMin;
-float fscale4f = fscaleMin;
-float fscale5f = fscaleMin;
-float fscale6f = fscaleMin;
-//control wheel's frame icons cycle movement (do not change)
-const float rUpperBound = 264.0;
-const float rLowerBound = 96.0;
-const float rOffset = 168.0;
-//distance to center of rotation (do not change)
-const int orbitRange = 300;
-//offset for each frame distance from the center at 180 degress(do not change)
-const int frameOffset1 = 28;
-const int frameOffset2 = 56;
-const int frameOffset3 = 84;
-//special regions near center to adjust speed
-const int centerRegionUpperBound = 180-10+frameOffset1;
-const int centerRegionLowerBound = 180+10-frameOffset1;
-const int centerLargeRegionUpperBound = 180+frameOffset2;
-const int centerLargeRegionLowerBound = 180-frameOffset2;
-//angle of rotation in degrees
-double clockwiseTraversing = 180.0;
-double clockwiseTraversing2 = clockwiseTraversing+frameOffset2;
-double clockwiseTraversing3 = clockwiseTraversing+frameOffset1;
-double clockwiseTraversing4 = clockwiseTraversing-frameOffset1;
-double clockwiseTraversing5 = clockwiseTraversing-frameOffset2;
-double clockwiseTraversing6 = clockwiseTraversing+frameOffset3;
-double clockwiseTraversingb = 180.0;
-double clockwiseTraversing2b = clockwiseTraversingb+frameOffset2;
-double clockwiseTraversing3b = clockwiseTraversingb+frameOffset1;
-double clockwiseTraversing4b = clockwiseTraversingb-frameOffset1;
-double clockwiseTraversing5b = clockwiseTraversingb-frameOffset2;
-double clockwiseTraversing6b = clockwiseTraversingb+frameOffset3;
-double clockwiseTraversingm = 180.0;
-double clockwiseTraversing2m = clockwiseTraversingm+frameOffset2;
-double clockwiseTraversing3m = clockwiseTraversingm+frameOffset1;
-double clockwiseTraversing4m = clockwiseTraversingm-frameOffset1;
-double clockwiseTraversing5m = clockwiseTraversingm-frameOffset2;
-double clockwiseTraversing6m = clockwiseTraversingm+frameOffset3;
-double clockwiseTraversingf = 180.0;
-double clockwiseTraversing2f = clockwiseTraversingf+frameOffset2;
-double clockwiseTraversing3f = clockwiseTraversingf+frameOffset1;
-double clockwiseTraversing4f = clockwiseTraversingf-frameOffset1;
-double clockwiseTraversing5f = clockwiseTraversingf-frameOffset2;
-double clockwiseTraversing6f = clockwiseTraversingf+frameOffset3;
-double clockwiseTraversingIncrement = 0;
-//storage
-const float DEG2RAD = 3.14159/180;
-float degInRad = 0.0;
-float degInRad2 = 0.0;
-float degInRad3 = 0.0;
-float degInRad4 = 0.0;
-float degInRad5 = 0.0;
-float degInRad6 = 0.0;
-//clothes icons id tracking
-//bags, male, female
-int b_id1, b_id2, b_id3, b_id4, b_id5, b_id6;
-int m_id1, m_id2, m_id3, m_id4, m_id5, m_id6;
-int f_id1, f_id2, f_id3, f_id4, f_id5, f_id6;
-//max count of bags, male, female
-int maxBags, maxMale, maxFemale;
-//track to alter current selection with wheel scrolls
-int fSelect = 0;
-int fSelect_b = fSelect;
-int fSelect_m = fSelect;
-int fSelect_f = fSelect;
-//aspect ratio fix
-double ar;
-bool key_state[256]={false};
-void keyupdate();
-void smoothWheelToCenter();
-void showicon(int w1, int h1, int frameId);
-void DrawFrames(unsigned char* data, int width, int height, int frameId);
-void loadWheel();
-void moveWheel();
-void saveWheel();
-int checkfSelect();
-void showcurrent();
-int garmentid_b = garmentid;
-int garmentid_m = garmentid;
-int garmentid_f = garmentid;
-void loadicons();
-unsigned char* bagData[100];
-unsigned char* maleData[100];
-unsigned char* femaleData[100];
-int b_width[100];
-int b_height[100]; 
-int b_nchannels[100];
-int m_width[100];
-int m_height[100]; 
-int m_nchannels[100];
-int f_width[100];
-int f_height[100]; 
-int f_nchannels[100];
-//end kevin2 vars
-
-//Edwin values
-double tempValueTurnedA = 0.0;
-double tempValueTurnedB = 0.0;
-//end Edwin
-
 
 //Removed by CCL- we will allocate these fixed size
 /*Stats  statsBags[NUM_BAGS];
@@ -790,7 +647,6 @@ void Save3DGarmentsXML(const std::string& fileName)
 	xmldoc.SaveFile(fullfilename.c_str());
 }
 
-
 bool playvid = false; 
 //-------------------------------------------------------------------------------------------------------------------
 void showCircle(int x, int y, int r)
@@ -850,6 +706,40 @@ void playVideo()
 		return;
 	}
 
+/*
+	int VIEWPORT_WIDTH = 1280;
+	int VIEWPORT_HEIGHT = 960; 
+	//video 
+	IplImage *image = cvQueryFrame(g_Capture);
+	if(image == NULL){
+		cvReleaseCapture(&g_Capture);
+		g_Capture = cvCaptureFromAVI("C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/Screensaver.mov");
+		image = cvQueryFrame(g_Capture);
+	}
+
+	//cvCvtColor(image, image, CV_BGR2RGB);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, image->width, image->height,GL_BGR, GL_UNSIGNED_BYTE, image->imageData);
+	glColor4f(1,1,1,1);
+		glBegin(GL_QUADS);
+
+		// upper left
+		glTexCoord2f(0, 0);
+		glVertex2f(0, 0);
+	
+		// upper right
+		glTexCoord2f((float)1280/(float)2048, 0);
+		glVertex2f(1280, 0);
+
+		// bottom right
+		glTexCoord2f((float)1280/(float)2048, (float)960/(float)2048);
+		glVertex2f(1280, 960);
+
+		// bottom left
+		glTexCoord2f(0, (float)960/(float)2048);
+		glVertex2f(0, 960);
+
+	glEnd();
+	*/
 }
 //-------------------------------------------------------------------------------------------------------------------
 void PrintOnScreen(char *str, int posX=500, int posY=200)
@@ -892,53 +782,32 @@ void addcloth(){
 			mcloth->Update(MCLOTH_DRESS_FEMALE); 
 	}
 }
-//kevin2 menu change edited buttons start
 void bagbutton(){
-	saveWheel();
-	//garmentid = garmentid_b; 
+	garmentid = 1; 
 	bShowDress3D = bShowDress2D = 0;
 	bShowBag = bBagIsActive = 1;
 	ismale = 0;
 	mcloth->Update(MCLOTH_BAGS);
-	//load wheel
-	loadWheel();
-	//load bag icons
-	maxBags = mcloth->NUM_BAGS;
-	//generate icon placements in which frames based on center frame
-	checkfSelect();
+
 }
 void femalebutton(){
-	saveWheel();
-	//garmentid = garmentid_f; 
+	garmentid = 1; 
 	bShowDress3D = bShowBag = bBagIsActive = 0;
 	bShowDress2D = 1;
 	ismale = 0; 
-	mcloth->Update(MCLOTH_DRESS_FEMALE);
-	//load wheel
-	loadWheel();
-	//load female icons
-	maxFemale = mcloth->NUM_DRESSES_FEMALE;
-	//generate icon placements in which frames based on center frame
-	checkfSelect();
+	mcloth->Update(MCLOTH_DRESS_FEMALE); 
+
 }
 void malebutton(){
-	saveWheel();
-	//garmentid = garmentid_m; 
+	garmentid = 1; 
 	bBagIsActive = 0;
 	bShowBag = 0;
 	bShowDress3D = 0;
 	bShowDress2D = 1;
 	ismale = 1;
 	mcloth->Update(MCLOTH_DRESS_MALE);
-	//load wheel
-	loadWheel();
-	//load male icons
-	maxMale = mcloth->NUM_DRESSES_MALE;
-	//generate icon placements in which frames based on center frame
-	checkfSelect();
-}
-//end kevin2 menu change edited
 
+}
 void button3D(){
 	garmentid = 1; 
 	bShowBag = 0;
@@ -977,7 +846,6 @@ void infoButton() {
 	}
 }
 
-//kevin scroll
 void scrollLeftButton(){
 	detail1flag = false; 
 	garmentid++; 
@@ -1028,7 +896,6 @@ void scrollRightButton(){
 		mcloth->Update(MCLOTH_DRESS_PREV);
 	}
 }
-//end kevin scroll
 
 void photoButton(){
 	if(frame1flag){
@@ -1074,6 +941,7 @@ void recommendButton(){
 		savingflag = true; 
 	}
 }
+
 void UpdateTime() {
 	
 
@@ -1098,7 +966,7 @@ void gui()
 //-------------------------------------------------------------------------------------------------------------------
 {
 	if(skel->status == false){
-		//printf("no skeleton detected\n");
+		printf("no skeleton detected\n");
 		skeletonflag = false;
 	}else{
 	//top left button s1 main
@@ -1303,7 +1171,6 @@ void gui()
 			counter_b3 = counter_bl3 = 0; 
 
 		}
-		/*
 		//button 4 
 		if(4*skel->handR.u > 370+310 && 4*skel->handR.u < 370+450 && 4*skel->handR.v > 300 && 4*skel->handR.v < 520) counter_b4++;//b4
 		else if(4*skel->handL.u > 370+310 && 4*skel->handL.u < 370+450 && 4*skel->handL.v > 300 && 4*skel->handL.v < 520) counter_bl4++;
@@ -1315,7 +1182,6 @@ void gui()
 			button3D();
 			counter_b4 = counter_bl4 = 0; 
 		}
-		*/
 	}
 		skeletonflag = true;
 	}//end if of no skeleton
@@ -1370,6 +1236,9 @@ void showphoto(unsigned char* data){
 		
 		glRotatef(3.0f,0.0f,0.0f,1.0f);
 
+
+		
+		
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 432,768,GL_RGB, GL_UNSIGNED_BYTE, data); 
 		glColor4f(1,1,1,1);
 		glBegin(GL_QUADS);
@@ -1411,331 +1280,6 @@ void showphoto(unsigned char* data){
 	 
 	glPopMatrix();
 }
-
-//kevin2 start
-//preload image data for wheel icons
-void loadicons(){
-	for(int i=1; i<=maxBags;i++){
-		sprintf(newpath,"%sParco/icons/Bags/bag%02d_icon.png",path, i);
-		bagData[i] = SOIL_load_image(
-				newpath,
-				&b_width[i],&b_height[i],&b_nchannels[i]
-				,SOIL_LOAD_AUTO
-				);
-	}
-	for(int i=1; i<=maxMale;i++){
-		sprintf(newpath,"%sParco/icons/Male/M%02d_icon.png",path, i);
-		maleData[i] = SOIL_load_image(
-				newpath,
-				&m_width[i],&m_height[i],&m_nchannels[i]
-				,SOIL_LOAD_AUTO
-				);
-	}
-	for(int i=1; i<=maxFemale;i++){
-		sprintf(newpath,"%sParco/icons/Female/F%02d_icon.png",path, i);
-		femaleData[i] = SOIL_load_image(
-				newpath,
-				&f_width[i],&f_height[i],&f_nchannels[i]
-				,SOIL_LOAD_AUTO
-				);
-	}
-}
-//kevin2 end
-//kevin2 icon thumbnails each drawing on each frame
-void showicon(int w1, int h1, int frameId){
-	unsigned char *data=0; 
-	int width = 0;
-	int height = 0; 
-	int nchannels = 0;
-	//if bag wheel
-	if(bBagIsActive){
-		switch(frameId)
-		{
-			case 1:
-				if(b_id1<=0) b_id1=maxBags+b_id1;
-				else if (b_id1>maxBags) b_id1=b_id1-maxBags;
-				//sprintf(newpath,"%sParco/icons/Bags/bag%02d_icon.png",path, b_id1);
-				data=bagData[b_id1];
-				width=b_width[b_id1];
-				height=b_height[b_id1];
-				nchannels=b_nchannels[b_id1];
-				break;
-			case 2:
-				if(b_id2<=0) b_id2=maxBags+b_id2;
-				else if (b_id2>maxBags) b_id2=b_id2-maxBags;
-				//sprintf(newpath,"%sParco/icons/Bags/bag%02d_icon.png",path, b_id2);
-				data=bagData[b_id2];
-				width=b_width[b_id2];
-				height=b_height[b_id2];
-				nchannels=b_nchannels[b_id2];
-				break;
-			case 3:
-				if(b_id3<=0) b_id3=maxBags+b_id3;
-				else if (b_id3>maxBags) b_id3=b_id3-maxBags;
-				//sprintf(newpath,"%sParco/icons/Bags/bag%02d_icon.png",path, b_id3);
-				data=bagData[b_id3];
-				width=b_width[b_id3];
-				height=b_height[b_id3];
-				nchannels=b_nchannels[b_id3];
-				break;
-			case 4:
-				if(b_id4<=0) b_id4=maxBags+b_id4;
-				else if (b_id4>maxBags) b_id4=b_id4-maxBags;
-				//sprintf(newpath,"%sParco/icons/Bags/bag%02d_icon.png",path, b_id4);
-				data=bagData[b_id4];
-				width=b_width[b_id4];
-				height=b_height[b_id4];
-				nchannels=b_nchannels[b_id4];
-				break;
-			case 5:
-				if(b_id5<=0) b_id5=maxBags+b_id5;
-				else if (b_id5>maxBags) b_id5=b_id5-maxBags;
-				//sprintf(newpath,"%sParco/icons/Bags/bag%02d_icon.png",path, b_id5);
-				data=bagData[b_id5];
-				width=b_width[b_id5];
-				height=b_height[b_id5];
-				nchannels=b_nchannels[b_id5];
-				break;
-			case 6:
-				if(b_id6<=0) b_id6=maxBags+b_id6;
-				else if (b_id6>maxBags) b_id6=b_id6-maxBags;
-				//sprintf(newpath,"%sParco/icons/Bags/bag%02d_icon.png",path, b_id6);
-				data=bagData[b_id6];
-				width=b_width[b_id6];
-				height=b_height[b_id6];
-				nchannels=b_nchannels[b_id6];
-				break;
-		}
-	}else if(bShowDress3D){		 
-		//sprintf(newpath,"%s/Models/icons/Garment%d.png", path, ids3DGarment[( garmentid % NUM_3DCLOTHES)] );
-		//sprintf( newpath, "%s", pCloth3D->GetIconPathNext().c_str() );
-	}else if(ismale){
-		//if male 2D wheel
-		switch(frameId)
-		{
-			case 1:
-				if(m_id1<=0) m_id1=maxMale+m_id1;
-				else if (m_id1>maxMale) m_id1=m_id1-maxMale;
-				//sprintf(newpath,"%sParco/icons/Male/M%02d_icon.png",path, m_id1);
-				data=maleData[m_id1];
-				width=m_width[m_id1];
-				height=m_height[m_id1];
-				nchannels=m_nchannels[m_id1];
-				break;
-			case 2:
-				if(m_id2<=0) m_id2=maxMale+m_id2;
-				else if (m_id2>maxMale) m_id2=m_id2-maxMale;
-				//sprintf(newpath,"%sParco/icons/Male/M%02d_icon.png",path, m_id2);
-				data=maleData[m_id2];
-				width=m_width[m_id2];
-				height=m_height[m_id2];
-				nchannels=m_nchannels[m_id2];
-				break;
-			case 3:
-				if(m_id3<=0) m_id3=maxMale+m_id3;
-				else if (m_id3>maxMale) m_id3=m_id3-maxMale;
-				//sprintf(newpath,"%sParco/icons/Male/M%02d_icon.png",path, m_id3);
-				data=maleData[m_id3];
-				width=m_width[m_id3];
-				height=m_height[m_id3];
-				nchannels=m_nchannels[m_id3];
-				break;
-			case 4:
-				if(m_id4<=0) m_id4=maxMale+m_id4;
-				else if (m_id4>maxMale) m_id4=m_id4-maxMale;
-				//sprintf(newpath,"%sParco/icons/Male/M%02d_icon.png",path, m_id4);
-				data=maleData[m_id4];
-				width=m_width[m_id4];
-				height=m_height[m_id4];
-				nchannels=m_nchannels[m_id4];
-				break;
-			case 5:
-				if(m_id5<=0) m_id5=maxMale+m_id5;
-				else if (m_id5>maxMale) m_id5=m_id5-maxMale;
-				//sprintf(newpath,"%sParco/icons/Male/M%02d_icon.png",path, m_id5);
-				data=maleData[m_id5];
-				width=m_width[m_id5];
-				height=m_height[m_id5];
-				nchannels=m_nchannels[m_id5];
-				break;
-			case 6:
-				if(m_id6<=0) m_id6=maxMale+m_id6;
-				else if (m_id6>maxMale) m_id6=m_id6-maxMale;
-				//sprintf(newpath,"%sParco/icons/Male/M%02d_icon.png",path, m_id6);
-				data=maleData[m_id6];
-				width=m_width[m_id6];
-				height=m_height[m_id6];
-				nchannels=m_nchannels[m_id6];
-				break;
-		}
-	}else{
-		//if female 2D wheel
-		switch(frameId)
-		{
-			case 1:
-				if(f_id1<=0) f_id1=maxFemale+f_id1;
-				else if (f_id1>maxFemale) f_id1=f_id1-maxFemale;
-				//sprintf(newpath,"%sParco/icons/Female/F%02d_icon.png",path, f_id1);
-				data=femaleData[f_id1];
-				width=f_width[f_id1];
-				height=f_height[f_id1];
-				nchannels=f_nchannels[f_id1];
-				break;
-			case 2:
-				if(f_id2<=0) f_id2=maxFemale+f_id2;
-				else if (f_id2>maxFemale) f_id2=f_id2-maxFemale;
-				//sprintf(newpath,"%sParco/icons/Female/F%02d_icon.png",path, f_id2);
-				data=femaleData[f_id2];
-				width=f_width[f_id2];
-				height=f_height[f_id2];
-				nchannels=f_nchannels[f_id2];
-				break;
-			case 3:
-				if(f_id3<=0) f_id3=maxFemale+f_id3;
-				else if (f_id3>maxFemale) f_id3=f_id3-maxFemale;
-				//sprintf(newpath,"%sParco/icons/Female/F%02d_icon.png",path, f_id3);
-				data=femaleData[f_id3];
-				width=f_width[f_id3];
-				height=f_height[f_id3];
-				nchannels=f_nchannels[f_id3];
-				break;
-			case 4:
-				if(f_id4<=0) f_id4=maxFemale+f_id4;
-				else if (f_id4>maxFemale) f_id4=f_id4-maxFemale;
-				//sprintf(newpath,"%sParco/icons/Female/F%02d_icon.png",path, f_id4);
-				data=femaleData[f_id4];
-				width=f_width[f_id4];
-				height=f_height[f_id4];
-				nchannels=f_nchannels[f_id4];
-				break;
-			case 5:
-				if(f_id5<=0) f_id5=maxFemale+f_id5;
-				else if (f_id5>maxFemale) f_id5=f_id5-maxFemale;
-				//sprintf(newpath,"%sParco/icons/Female/F%02d_icon.png",path, f_id5);
-				data=femaleData[f_id5];
-				width=f_width[f_id5];
-				height=f_height[f_id5];
-				nchannels=f_nchannels[f_id5];
-				break;
-			case 6:
-				if(f_id6<=0) f_id6=maxFemale+f_id6;
-				else if (f_id6>maxFemale) f_id6=f_id6-maxFemale;
-				//sprintf(newpath,"%sParco/icons/Female/F%02d_icon.png",path, f_id6);
-				data=femaleData[f_id6];
-				width=f_width[f_id6];
-				height=f_height[f_id6];
-				nchannels=f_nchannels[f_id6];
-				break;
-		}
-	}
-	/*
-	data = SOIL_load_image(
-				newpath,
-				&width,&height,&nchannels
-				,SOIL_LOAD_AUTO
-				);
-	*/
-	float u = (float)width/(float)2060;
-	float v = (float)height/(float)2060;
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-	//Save icon texture image as current texture
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width,height,GL_RGBA, GL_UNSIGNED_BYTE, data);
-	//delete [] data;
-	//Draw icons with this texture
-	glColor4f(1,1,1,1);
-	glBegin(GL_QUADS);
-		//upper left
-		glTexCoord2f(0, 0);
-		glVertex2f(-w1/(float)2, -h1/(float)2);
-		//upper right
-		glTexCoord2f(u, 0);
-		glVertex2f(w1/(float)2, -h1/(float)2);
-		//bottom right
-		glTexCoord2f(u, v);
-		glVertex2f(w1/(float)2, h1/(float)2);
-		//bottom left
-		glTexCoord2f(0, v);
-		glVertex2f(-w1/(float)2, h1/(float)2);
-	glEnd();		
-}
-//end kevin2 icons drawing
-
-//kevin2 start
-//Draw current selection at leftside of screen for prototype testing only
-void showcurrent(){
-	unsigned char *data=0; 
-	int width = 0;
-	int height = 0; 
-	int nchannels = 0;
-	int choice = checkfSelect();
-	if(bBagIsActive){
-		data=bagData[choice];
-		width=b_width[choice];
-		height=b_height[choice];
-		nchannels=b_nchannels[choice];
-		//sprintf(newpath,"%sParco/icons/Bags/bag%02d_icon.png",path, checkfSelect());
-	}else if(bShowDress3D){		 
-		//do nothing for now, no 3D dress
-	}else if(ismale){
-		data=maleData[choice];
-		width=m_width[choice];
-		height=m_height[choice];
-		nchannels=m_nchannels[choice];
-		//sprintf(newpath,"%sParco/icons/Male/M%02d_icon.png",path, checkfSelect());
-	}else{ 
-		data=femaleData[choice];
-		width=f_width[choice];
-		height=f_height[choice];
-		nchannels=f_nchannels[choice];
-		//sprintf(newpath,"%sParco/icons/Female/F%02d_icon.png",path, checkfSelect());
-	}
-		/*
-		data = SOIL_load_image(
-				newpath,
-				&width,&height,&nchannels
-				,SOIL_LOAD_AUTO
-				);
-				*/
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width,height,GL_RGBA, GL_UNSIGNED_BYTE, data); 
-		//delete [] data;
-		float u = (float)width/(float)2060;
-		float v = (float)height/(float)2060;
-		glColor4f(1,1,1,1);
-		glBegin(GL_QUADS);
-			if(bShowDress3D) {
-				//upper left
-				glTexCoord2f(u, 0);
-				glVertex2f(0+370, 415);
-				//upper right
-				glTexCoord2f(0, 0);
-				glVertex2f(width+370, 415);
-				//bottom right
-				glTexCoord2f(0, v);
-				glVertex2f(width+370, height+415);
-				//bottom left
-				glTexCoord2f(u, v);
-				glVertex2f(0+370, height + 415);
-			} else {
-				//upper left
-				glTexCoord2f(0, 0);
-				glVertex2f(0+370, 415);
-				//upper right
-				glTexCoord2f(u, 0);
-				glVertex2f(width+370, 415);
-				//bottom right
-				glTexCoord2f(u, v);
-				glVertex2f(width+370, height+415);
-				//bottom left
-				glTexCoord2f(0, v);
-				glVertex2f(0+370, height + 415);
-			}
-		glEnd();
-}
-//end kevin2
-
 void showleft(){//next
 	UpdateTime();
 	unsigned char *data=0; 
@@ -1810,7 +1354,6 @@ void showleft(){//next
 		glEnd();
 	//}
 }
-
 void showright(){	
 	UpdateTime();
 	unsigned char * data=0; 
@@ -1903,7 +1446,6 @@ void showright(){
 	//}
 }
 
-// NEW 240113
 //Change function name from showframe to avoid confusion between drawing the BG and drawing the
 //big/small frames in the new GUI
 void DrawBG(unsigned char* data){
@@ -1934,37 +1476,33 @@ void DrawBG(unsigned char* data){
 		
 }
 
-//DrawFrames NEW 240113 by Shawn
-//kevin edited fixed white lines around border
-void DrawFrames(unsigned char* data, int width, int height, int frameId) {
-	float width2 = (float)width/(float)2060;
-	float height2 = (float)height/(float)2060;
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+//DrawFrames NEW 240113
+void DrawFrames(unsigned char* data, int width, int height) {
 	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
 	glColor4f(1,1,1,1);
 	glBegin(GL_QUADS);
 
 		// upper left
-		glTexCoord2f(0, 1/(float)2048);
-		glVertex2f(-width/(float)2, -height/(float)2);
+		glTexCoord2f(0, 0);
+		glVertex2f((float)-width/(float)2, (float)-height/(float)2);
 	
 		// upper right
-		glTexCoord2f((width-1)/(float)2048, 1/(float)2048);
-		glVertex2f(width/(float)2, -height/(float)2);
+		glTexCoord2f((float)width/(float)2048, 0);
+		glVertex2f((float)width/(float)2, (float)-height/(float)2);
 
 		// bottom right
-		glTexCoord2f((width-1)/(float)2048, (height-1)/(float)2048);
-		glVertex2f(width/(float)2, height/(float)2);
+		glTexCoord2f((float)width/(float)2048, (float)height/(float)2048);
+		glVertex2f((float)width/(float)2, (float)height/(float)2);
 
 		// bottom left
-		glTexCoord2f(0.0, (height-1)/(float)2048);
-		glVertex2f(-width/(float)2, height/(float)2);
+		glTexCoord2f(0, (float)height/(float)2048);
+		glVertex2f((float)-width/(float)2, (float)height/(float)2);
+
 	glEnd();
-	//comment out this line if it lags too much
-	showicon(width-30, height-30, frameId);
 }
 //END
+
 void showHand(void){
 	bool showing = false;
 	unsigned char * dataf=0;
@@ -2197,7 +1735,7 @@ void screenshot(void)
 		cvResize(img2, destination);
 		/* Add both images
 	    Note that now both images have 'same' width & height */
-		IplImage *img1 = cvLoadImage("C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/photo2.png", 1);	
+		IplImage *img1 = cvLoadImage("C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/photo2.png", 1);	
 		
 		CvRect rect = cvRect(108, 108, img1->width-216, img1->height-384);
  
@@ -2394,16 +1932,6 @@ wchar_t buffer[MAX_PATH]={L'\0'};
 void glutDisplay (void)
 //------------------------------------------------------------------------
 {
-	
-
-	//kevin keypress
-	keyupdate();
-	//end
-	
-	//Edwin 06032013
-	//keyUpdateFromGesture();
-	//end
-
 	cnt++;
 	//print memory info. every 100 frames
 	if(cnt>100) {
@@ -2442,7 +1970,7 @@ void glutDisplay (void)
 		cnt=0;
 	}
 
-	//check_gl_error
+	//CHECK_GL_ERROR
 
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -2453,19 +1981,15 @@ void glutDisplay (void)
 
 	//Render the backdrop first
 	glEnable(GL_TEXTURE_2D);
-	//kevin
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-	//end
 	glBindTexture(GL_TEXTURE_2D, bgTexID);
 	DrawFullScreenQuad();
-	//check_gl_error
+	//CHECK_GL_ERROR
 	//Render the live scene	
 	glBindTexture(GL_TEXTURE_2D, rgbTexID); 
 	glTexSubImage2D(GL_TEXTURE_2D,0,0,0,COLOR_RES_X, COLOR_RES_Y, GL_BGRA, GL_UNSIGNED_BYTE, (DWORD*)cImg->imageData);
-	//check_gl_error
+	//CHECK_GL_ERROR
 	DrawFullScreenQuad();
-	//check_gl_error
+	//CHECK_GL_ERROR
 	glDisable(GL_TEXTURE_2D);
 
 	if(showclothesflag){
@@ -2477,9 +2001,9 @@ void glutDisplay (void)
 				stats3D[garmentid-1].counts++;
 				oldGarmentID_3D = garmentid;
 			}
-			//check_gl_error
+			//CHECK_GL_ERROR
 			pCloth3D->Draw();
-			//check_gl_error
+			//CHECK_GL_ERROR
 		}else if( bShowDress2D ){
 			if(ismale) {
 				if(oldGarmentID_M != garmentid) {
@@ -2494,25 +2018,21 @@ void glutDisplay (void)
 				}
 			}
 
-			//check_gl_error
+			//CHECK_GL_ERROR
 			int nwidth = mcloth->garment->iplImg_4ch->width;
 			int nheight = mcloth->garment->iplImg_4ch->height;
 			glEnable(GL_BLEND);		
-			glEnable(GL_TEXTURE_2D);
-			//kevin
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ); 
-			//end
+			glEnable(GL_TEXTURE_2D); 
 			glBindTexture(GL_TEXTURE_2D, clothTexID);
 
-			//check_gl_error
+			//CHECK_GL_ERROR
 
 			//bind the pbo so that the texture is cleared
 			glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboID);
 			glTexSubImage2D(GL_TEXTURE_2D,0,0,0,2048, 2048, GL_BGRA, GL_UNSIGNED_BYTE, 0);
 			glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 		
-			//check_gl_error
+			//CHECK_GL_ERROR
 
 
 				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, nwidth, nheight,GL_RGBA, GL_UNSIGNED_BYTE, mcloth->garment->iplImg_4ch->imageData); 
@@ -2520,15 +2040,15 @@ void glutDisplay (void)
 			
 			GLuint error = glGetError();
 
-			//check_gl_error
+			//CHECK_GL_ERROR
 			mcloth->Draw();
-			//check_gl_error
+			//CHECK_GL_ERROR
 			glDisable(GL_TEXTURE_2D); 
 			glDisable(GL_BLEND);
 						
 	
 		}
-		//check_gl_error
+		//CHECK_GL_ERROR
 		if(bShowBag) 
 		{
 			if(oldGarmentID_B != garmentid) {
@@ -2537,16 +2057,12 @@ void glutDisplay (void)
 			}
 			   
 			glEnable(GL_TEXTURE_2D);
-			//kevin
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-			//end
 			glBindTexture(GL_TEXTURE_2D, accessoryTexID);
 			//the bag
 			int x1=0, y1=0, x2=0, y2=0;
 			mcloth->GetPosition(1, &x1, &x2, &y1, &y2); 
 			glEnable(GL_BLEND);
-			//check_gl_error
+			//CHECK_GL_ERROR
 				//removed by CCL
 				//showImage(mcloth->bag->iplImg_4ch->imageData, mcloth->bag->iplImg_4ch->width, mcloth->bag->iplImg_4ch->height, x1, x2, y1, y2, mcloth->bag->iplImg_4ch->nChannels);	
 			//Added by CCL -- because the bag texture has a faint line. texture coordinates
@@ -2562,7 +2078,7 @@ void glutDisplay (void)
 			glColor4f(1,1,1,1);
 			glTexCoord2f(0, 0); // upper left
 			glVertex2f(x1, y1);	
-			
+
 			glTexCoord2f((float)(nwidth-2)/(float)nTextImageSize, 0); // upper right //ccl minus 2px to removed thin line
 			glVertex2f(x2, y1);	
 
@@ -2573,32 +2089,28 @@ void glutDisplay (void)
 			glVertex2f(x1, y2);
 			glEnd();
 			
-			//check_gl_error
+			//CHECK_GL_ERROR
 			glDisable(GL_BLEND);
 			glDisable(GL_TEXTURE_2D);
 		}
-		//check_gl_error
+		//CHECK_GL_ERROR
 	}	
-	//check_gl_error
+	//CHECK_GL_ERROR
 
 	//gesture based interaction
 	gui();
 
-	//check_gl_error
+	//CHECK_GL_ERROR
 		glEnable(GL_TEXTURE_2D);
-	//kevin start
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 		glBindTexture(GL_TEXTURE_2D, framesTexID);
 		glEnable(GL_BLEND);
-	//check_gl_error
+	//CHECK_GL_ERROR
 	if(frame1flag){
 		showclothesflag = true; 
-		showcurrent();
-		//showleft();
-		//showright();
-	//kevin end
-		//NEW 240113
+		showleft();
+		showright();
+
+//NEW 240113
 /*		//replaced by v2
 		if(bBagIsActive){
 			DrawBG(dataf1);
@@ -2637,7 +2149,7 @@ void glutDisplay (void)
 			else {
 				switch (menuFlag) {
 					case 0:
-						DrawBG(dataWHome);//dataWHome
+						DrawBG(dataWHome);
 						break;
 					case 1:
 						DrawBG(dataWDetails);
@@ -2649,62 +2161,31 @@ void glutDisplay (void)
 						DrawBG(dataWAdd);
 						break;
 					default:
-						DrawBG(dataWDefault);//dataWDefault
+						DrawBG(dataWDefault);
 				}
 			}
-
-			//kevin wheel frames start
 			glMatrixMode(GL_MODELVIEW);
 			glPushMatrix();
 				glLoadIdentity();
-				glTranslatef(370 + 400 +orbitRange, 960/2 + 25, 0);
-				//Draw Middle Frame 1
+				glTranslatef(370 + 400, 960/2 + 25, 0);
+				DrawFrames(dataFrameBig, wFrameBig, hFrameBig);
 				glPushMatrix();
-				degInRad = clockwiseTraversing*DEG2RAD;
-				glTranslatef(cos(degInRad)*orbitRange,sin(degInRad)*orbitRange,0);
-				glScalef(1.0*fscale1, 1.0*fscale1, 1.0*fscale1);
-				DrawFrames(dataFrameBig, wFrameBig, hFrameBig, 1);
+					glTranslatef(100, -230, 0);
+					DrawFrames(dataFrame, wFrame, hFrame);
 				glPopMatrix();
-				//Draw two up from middle Frame 2
 				glPushMatrix();
-					degInRad2 = clockwiseTraversing2*DEG2RAD;
-					glTranslatef(cos(degInRad2)*orbitRange,sin(degInRad2)*orbitRange,0);
-					glScalef(1.0*fscale2, 1.0*fscale2, 1.0*fscale2);
-					DrawFrames(dataFrameBig, wFrameBig, hFrameBig, 2);
+					glTranslatef(30, -155, 0);
+					DrawFrames(dataFrame, wFrame, hFrame);
 				glPopMatrix();
-				//Draw one up from middle Frame 3
 				glPushMatrix();
-					degInRad3 = clockwiseTraversing3*DEG2RAD;
-					glTranslatef(cos(degInRad3)*orbitRange,sin(degInRad3)*orbitRange,0);
-					glScalef(1.0*fscale3, 1.0*fscale3, 1.0*fscale3);
-					DrawFrames(dataFrameBig, wFrameBig, hFrameBig, 3);
+					glTranslatef(30, 155, 0);
+					DrawFrames(dataFrame, wFrame, hFrame);
 				glPopMatrix();
-				//Draw one down from middle Frame 4
 				glPushMatrix();
-					degInRad4 = clockwiseTraversing4*DEG2RAD;
-					glTranslatef(cos(degInRad4)*orbitRange,sin(degInRad4)*orbitRange,0);
-					glScalef(1.0*fscale4, 1.0*fscale4, 1.0*fscale4);
-					DrawFrames(dataFrameBig, wFrameBig, hFrameBig, 4);
-				glPopMatrix();
-				//Draw two down from middle Frame 5
-				glPushMatrix();
-					degInRad5 = clockwiseTraversing5*DEG2RAD;
-					glTranslatef(cos(degInRad5)*orbitRange,sin(degInRad5)*orbitRange,0);
-					glScalef(1.0*fscale5, 1.0*fscale5, 1.0*fscale5);
-					DrawFrames(dataFrameBig, wFrameBig, hFrameBig, 5);
-				glPopMatrix();
-				//Draw three up from middle Frame 6
-				glPushMatrix();
-					degInRad6 = clockwiseTraversing6*DEG2RAD;
-					glTranslatef(cos(degInRad6)*orbitRange,sin(degInRad6)*orbitRange,0);
-					glScalef(1.0*fscale6, 1.0*fscale6, 1.0*fscale6);
-					DrawFrames(dataFrameBig, wFrameBig, hFrameBig, 6);
+					glTranslatef(100, 230, 0);
+					DrawFrames(dataFrame, wFrame, hFrame);
 				glPopMatrix();
 			glPopMatrix();
-			//move wheel
-			moveWheel();
-		//end kevin wheel frames
-
 		}
 		else {
 			if (showPanel) {
@@ -2731,7 +2212,7 @@ void glutDisplay (void)
 			else {
 				switch (menuFlag) {
 					case 0:
-						DrawBG(dataf2);//dataHome
+						DrawBG(dataHome);
 						break;
 					case 1:
 						DrawBG(dataDetails);
@@ -2743,13 +2224,13 @@ void glutDisplay (void)
 						DrawBG(dataAdd);
 						break;
 					default:
-						DrawBG(dataf2);//dataDefault
+						DrawBG(dataDefault);
 				}
 			}
 		}
 
 	}
-	//check_gl_error
+	//CHECK_GL_ERROR
 	//for splash page
 	if(frame2flag){
 		showclothesflag = false;
@@ -2758,32 +2239,32 @@ void glutDisplay (void)
 		oldGarmentID_F = -1;
 		oldGarmentID_M = -1;
 		oldGarmentID_B = -1;
-		DrawBG(dataf2);//dataWDefault
+		DrawBG(dataDefault);
 	}
-	//check_gl_error
+	//CHECK_GL_ERROR
 //END
 	if(detail1flag){
 		if(bBagIsActive){			
-			//showframe(datadbag);
+			//DrawBG(datadbag);
 			//added by Mobeen 23 Oct 2012			
-			//showframe(detailsDataBag[mcloth->GetBagId()-1]);
+			//DrawBG(detailsDataBag[mcloth->GetBagId()-1]);
 			//sprintf(newpath,"%sDetails/Bag/DB%d.png",path, mcloth->GetBagId()); //ccl removed
 			sprintf(newpath, "%s", mcloth->bag->detail_name.c_str() );	//ccl added
 		}else{
 			if(ismale){
-				//showframe(datad2);
-				//showframe(detailsDataMale[garmentid-1]);
-				///showframe(detailsDataMale[mcloth->GetGarmentId()-1]);
+				//DrawBG(datad2);
+				//DrawBG(detailsDataMale[garmentid-1]);
+				///DrawBG(detailsDataMale[mcloth->GetGarmentId()-1]);
 				//sprintf(newpath,"%sDetails/Male/DM%d.png",path, mcloth->GetGarmentId());	//ccl removed
 				sprintf(newpath, "%s", mcloth->garment->detail_name.c_str() );	//ccl added
 			}else{
-				//showframe(datad1);
+				//DrawBG(datad1);
 				if(bShowDress3D)
-					///showframe(detailsData3D[garmentid-1]);
+					///DrawBG(detailsData3D[garmentid-1]);
 					//sprintf(newpath,"%sDetails/3D/D3D%d.png",path, ids3DGarment[( (garmentid-1) % NUM_3DCLOTHES)]);	//ccl removed
 					sprintf(newpath, "%s", pCloth3D->GetDetailPath().c_str() );	//ccl added
 				else
-					///showframe(detailsDataFemale[mcloth->GetGarmentId()-1]);
+					///DrawBG(detailsDataFemale[mcloth->GetGarmentId()-1]);
 					//sprintf(newpath,"%sDetails/Female/DF%d.png",path, mcloth->GetGarmentId());	//ccl removed
 					sprintf(newpath, "%s", mcloth->garment->detail_name.c_str() ); //ccl added
 			}
@@ -2791,17 +2272,15 @@ void glutDisplay (void)
 
 		int w=0, h=0, c=0;
 		unsigned char* data = SOIL_load_image(newpath,&w,&h,&c,SOIL_LOAD_AUTO);		
-		//showframe(data);
 		DrawBG(data);
 		delete [] data; 
 
 	}
-	//check_gl_error
+	//CHECK_GL_ERROR
 	if(previewflag){
 		detail1flag = false;
 		showclothesflag = false;
 		DrawBG(datap1);
-		//showframe(datap1);
 		if(photoflag == false){
 			//photoflag = true; 
 			int width = 0;
@@ -2818,7 +2297,7 @@ void glutDisplay (void)
 			
 		}
 	}
-	//check_gl_error
+	//CHECK_GL_ERROR
 	if(photoflag){
 		showphoto(datap2);
 	}
@@ -2859,10 +2338,6 @@ void glutDisplay (void)
 		if(t1 > t2){
 			//play video
 			glEnable(GL_TEXTURE_2D);
-			//kevin
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-			//end
 			glBindTexture(GL_TEXTURE_2D, detailsTexID);
 			glEnable(GL_BLEND);
 			if(playvid==false){
@@ -2873,7 +2348,7 @@ void glutDisplay (void)
 	}
 	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
-	//check_gl_error
+	//CHECK_GL_ERROR
 	//prinitng something on screen
 	
 	//PrintOnScreen(sizeof(Skeleton), "Sizeof(vec6) = ", 500, 250);
@@ -2895,7 +2370,9 @@ void glutDisplay (void)
 	PrintOnScreen(statsFemale[garmentid-1].nUploads, "Pictures Female = ", 500, 275);
 	PrintOnScreen(statsBags[garmentid-1].nUploads, "Pictures Bags = ", 500, 300);
 	PrintOnScreen(stats3D[garmentid-1].nUploads, "Pictures 3D = ", 500, 350);*/
- 
+	 
+
+	 
 	glutSwapBuffers();
 
 	//frame rate
@@ -3087,1038 +2564,177 @@ bool DirectoryExists(const char* dirName) {
 
 char directory[MAX_PATH]={'\0'};
 
-//kevin functions
-//smoothly slide nearest frame to center when user stops scrolling wheel
-void smoothWheelToCenter()
-{
-	if (clockwiseTraversingIncrement==0) return;
-	if (clockwiseTraversing==180||clockwiseTraversing2==180||clockwiseTraversing3==180||clockwiseTraversing4==180||clockwiseTraversing5==180||clockwiseTraversing6==180)
-	{
-		clockwiseTraversingIncrement = 0;
-		return;
-	}
-	if (clockwiseTraversingIncrement > 0){
-		clockwiseTraversingIncrement = 2.0;
-	}
-	else if (clockwiseTraversingIncrement < 0){
-		clockwiseTraversingIncrement = -2.0;
-	}
-}
-//loads wheel positions from memory
-//kevin2 start
-//loads wheel positions from memory
-void loadWheel()
-{
-	if(bBagIsActive){
-		clockwiseTraversing=clockwiseTraversingb;
-		clockwiseTraversing2=clockwiseTraversing2b;
-		clockwiseTraversing3=clockwiseTraversing3b;
-		clockwiseTraversing4=clockwiseTraversing4b;
-		clockwiseTraversing5=clockwiseTraversing5b;
-		clockwiseTraversing6=clockwiseTraversing6b;
-		fscale1=fscale1b;
-		fscale2=fscale2b;
-		fscale3=fscale3b;
-		fscale4=fscale4b;
-		fscale5=fscale5b;
-		fscale6=fscale6b;
-		fSelect=fSelect_b;
-		garmentid=garmentid_b;
-	}
-	else if(!bShowDress3D){
-		if (ismale){
-			clockwiseTraversing=clockwiseTraversingm;
-			clockwiseTraversing2=clockwiseTraversing2m;
-			clockwiseTraversing3=clockwiseTraversing3m;
-			clockwiseTraversing4=clockwiseTraversing4m;
-			clockwiseTraversing5=clockwiseTraversing5m;
-			clockwiseTraversing6=clockwiseTraversing6m;
-			fscale1=fscale1m;
-			fscale2=fscale2m;
-			fscale3=fscale3m;
-			fscale4=fscale4m;
-			fscale5=fscale5m;
-			fscale6=fscale6m;
-			fSelect=fSelect_m;
-			garmentid=garmentid_m;
-		}
-		else {
-			clockwiseTraversing=clockwiseTraversingf;
-			clockwiseTraversing2=clockwiseTraversing2f;
-			clockwiseTraversing3=clockwiseTraversing3f;
-			clockwiseTraversing4=clockwiseTraversing4f;
-			clockwiseTraversing5=clockwiseTraversing5f;
-			clockwiseTraversing6=clockwiseTraversing6f;
-			fscale1=fscale1f;
-			fscale2=fscale2f;
-			fscale3=fscale3f;
-			fscale4=fscale4f;
-			fscale5=fscale5f;
-			fscale6=fscale6f;
-			fSelect=fSelect_f;
-			garmentid=garmentid_f;
-		}
-	}
-}
-//kevin2 end
-//save current wheel
-void saveWheel()
-{
-	if(bBagIsActive){
-		fSelect_b=fSelect;
-		garmentid_b=garmentid;
-		clockwiseTraversingb=clockwiseTraversing;
-		clockwiseTraversing2b=clockwiseTraversing2;
-		clockwiseTraversing3b=clockwiseTraversing3;
-		clockwiseTraversing4b=clockwiseTraversing4;
-		clockwiseTraversing5b=clockwiseTraversing5;
-		clockwiseTraversing6b=clockwiseTraversing6;
-		fscale1b=fscale1;
-		fscale2b=fscale2;
-		fscale3b=fscale3;
-		fscale4b=fscale4;
-		fscale5b=fscale5;
-		fscale6b=fscale6;
-	}
-	else if(!bShowDress3D){
-		if (ismale){
-			fSelect_m=fSelect;
-			garmentid_m=garmentid;
-			clockwiseTraversingm=clockwiseTraversing;
-			clockwiseTraversing2m=clockwiseTraversing2;
-			clockwiseTraversing3m=clockwiseTraversing3;
-			clockwiseTraversing4m=clockwiseTraversing4;
-			clockwiseTraversing5m=clockwiseTraversing5;
-			clockwiseTraversing6m=clockwiseTraversing6;
-			fscale1m=fscale1;
-			fscale2m=fscale2;
-			fscale3m=fscale3;
-			fscale4m=fscale4;
-			fscale5m=fscale5;
-			fscale6m=fscale6;
-		}
-		else {
-			fSelect_f=fSelect;
-			garmentid_f=garmentid;
-			clockwiseTraversingf=clockwiseTraversing;
-			clockwiseTraversing2f=clockwiseTraversing2;
-			clockwiseTraversing3f=clockwiseTraversing3;
-			clockwiseTraversing4f=clockwiseTraversing4;
-			clockwiseTraversing5f=clockwiseTraversing5;
-			clockwiseTraversing6f=clockwiseTraversing6;
-			fscale1f=fscale1;
-			fscale2f=fscale2;
-			fscale3f=fscale3;
-			fscale4f=fscale4;
-			fscale5f=fscale5;
-			fscale6f=fscale6;
-		}
-	}
-}
-//kevin2 start
-//check frame selection and load proper icon id for it
-int checkfSelect()
-{
-	int selected_id;
-	if(bBagIsActive){
-		switch(fSelect)
-		{
-			case 2:
-				selected_id=b_id2;//=mcloth->GetBagId();
-				b_id5 = selected_id - 2;
-				b_id6 = selected_id - 1;
-				b_id3 = selected_id + 1;
-				b_id1 = selected_id + 2;
-				b_id4 = selected_id - 3;
-				break;
-			case 3:
-				selected_id=b_id3;//=mcloth->GetBagId();
-				b_id6 = selected_id - 2;
-				b_id2 = selected_id - 1;
-				b_id1 = selected_id + 1;
-				b_id4 = selected_id + 2;
-				b_id5 = selected_id - 3;
-				break;
-			case 4:
-				selected_id=b_id4;//=mcloth->GetBagId();
-				b_id3 = selected_id - 2;
-				b_id1 = selected_id - 1;
-				b_id5 = selected_id + 1;
-				b_id6 = selected_id + 2;
-				b_id2 = selected_id - 3;
-				break;
-			case 5:
-				selected_id=b_id5;//=mcloth->GetBagId();
-				b_id1 = selected_id - 2;
-				b_id4 = selected_id - 1;
-				b_id6 = selected_id + 1;
-				b_id2 = selected_id + 2;
-				b_id3 = selected_id - 3;
-				break;
-			case 6:
-				selected_id=b_id6;//=mcloth->GetBagId();
-				b_id4 = selected_id - 2;
-				b_id5 = selected_id - 1;
-				b_id2 = selected_id + 1;
-				b_id3 = selected_id + 2;
-				b_id1 = selected_id - 3;
-				break;
-			default:
-				selected_id=b_id1;//=mcloth->GetBagId();
-				b_id2 = selected_id - 2;
-				b_id3 = selected_id - 1;
-				b_id4 = selected_id + 1;
-				b_id5 = selected_id + 2;
-				b_id6 = selected_id - 3;
-				break;
-		}
-		if(b_id1<=0) b_id1=maxBags+b_id1;
-		else if (b_id1>maxBags) b_id1=b_id1-maxBags;
-		if(b_id2<=0) b_id2=maxBags+b_id2;
-		else if (b_id2>maxBags) b_id2=b_id2-maxBags;
-		if(b_id3<=0) b_id3=maxBags+b_id3;
-		else if (b_id3>maxBags) b_id3=b_id3-maxBags;
-		if(b_id4<=0) b_id4=maxBags+b_id4;
-		else if (b_id4>maxBags) b_id4=b_id4-maxBags;
-		if(b_id5<=0) b_id5=maxBags+b_id5;
-		else if (b_id5>maxBags) b_id5=b_id5-maxBags;
-		if(b_id6<=0) b_id6=maxBags+b_id6;
-		else if (b_id6>maxBags) b_id6=b_id6-maxBags;
-	}
-	else if(!bShowDress3D){
-		if (ismale){
-			switch(fSelect)
-			{
-				case 2:
-					selected_id=m_id2;//=mcloth->GetGarmentId();
-					m_id5 = selected_id - 2;
-					m_id6 = selected_id - 1;
-					m_id3 = selected_id + 1;
-					m_id1 = selected_id + 2;
-					m_id4 = selected_id - 3;
-					break;
-				case 3:
-					selected_id=m_id3;//=mcloth->GetGarmentId();
-					m_id6 = selected_id - 2;
-					m_id2 = selected_id - 1;
-					m_id1 = selected_id + 1;
-					m_id4 = selected_id + 2;
-					m_id5 = selected_id - 3;
-					break;
-				case 4:
-					selected_id=m_id4;//=mcloth->GetGarmentId();
-					m_id3 = selected_id - 2;
-					m_id1 = selected_id - 1;
-					m_id5 = selected_id + 1;
-					m_id6 = selected_id + 2;
-					m_id2 = selected_id - 3;
-					break;
-				case 5:
-					selected_id=m_id5;//=mcloth->GetGarmentId();
-					m_id1 = selected_id - 2;
-					m_id4 = selected_id - 1;
-					m_id6 = selected_id + 1;
-					m_id2 = selected_id + 2;
-					m_id3 = selected_id - 3;
-					break;
-				case 6:
-					selected_id=m_id6;//=mcloth->GetGarmentId();
-					m_id4 = selected_id - 2;
-					m_id5 = selected_id - 1;
-					m_id2 = selected_id + 1;
-					m_id3 = selected_id + 2;
-					m_id1 = selected_id - 3;
-					break;
-				default:
-					selected_id=m_id1;//=mcloth->GetGarmentId();
-					m_id2 = selected_id - 2;
-					m_id3 = selected_id - 1;
-					m_id4 = selected_id + 1;
-					m_id5 = selected_id + 2;
-					m_id6 = selected_id - 3;
-					break;
-			}
-			if(m_id1<=0) m_id1=maxMale+m_id1;
-			else if (m_id1>maxMale) m_id1=m_id1-maxMale;
-			if(m_id2<=0) m_id2=maxMale+m_id2;
-			else if (m_id2>maxMale) m_id2=m_id2-maxMale;
-			if(m_id3<=0) m_id3=maxMale+m_id3;
-			else if (m_id3>maxMale) m_id3=m_id3-maxMale;
-			if(m_id4<=0) m_id4=maxMale+m_id4;
-			else if (m_id4>maxMale) m_id4=m_id4-maxMale;
-			if(m_id5<=0) m_id5=maxMale+m_id5;
-			else if (m_id5>maxMale) m_id5=m_id5-maxMale;
-			if(m_id6<=0) m_id6=maxMale+m_id6;
-			else if (m_id6>maxMale) m_id6=m_id6-maxMale;
-		}
-		else {
-			switch(fSelect)
-			{
-				case 2:
-					selected_id=f_id2;//=mcloth->GetGarmentId();
-					f_id5 = selected_id - 2;
-					f_id6 = selected_id - 1;
-					f_id3 = selected_id + 1;
-					f_id1 = selected_id + 2;
-					f_id4 = selected_id - 3;
-					break;
-				case 3:
-					selected_id=f_id3;//=mcloth->GetGarmentId();
-					f_id6 = selected_id - 2;
-					f_id2 = selected_id - 1;
-					f_id1 = selected_id + 1;
-					f_id4 = selected_id + 2;
-					f_id5 = selected_id - 3;
-					break;
-				case 4:
-					selected_id=f_id4;//=mcloth->GetGarmentId();
-					f_id3 = selected_id - 2;
-					f_id1 = selected_id - 1;
-					f_id5 = selected_id + 1;
-					f_id6 = selected_id + 2;
-					f_id2 = selected_id - 3;
-					break;
-				case 5:
-					selected_id=f_id5;//=mcloth->GetGarmentId();
-					f_id1 = selected_id - 2;
-					f_id4 = selected_id - 1;
-					f_id6 = selected_id + 1;
-					f_id2 = selected_id + 2;
-					f_id3 = selected_id - 3;
-					break;
-				case 6:
-					selected_id=f_id6;//=mcloth->GetGarmentId();
-					f_id4 = selected_id - 2;
-					f_id5 = selected_id - 1;
-					f_id2 = selected_id + 1;
-					f_id3 = selected_id + 2;
-					f_id1 = selected_id - 3;
-					break;
-				default:
-					selected_id=f_id1;//=mcloth->GetGarmentId();
-					f_id2 = selected_id - 2;
-					f_id3 = selected_id - 1;
-					f_id4 = selected_id + 1;
-					f_id5 = selected_id + 2;
-					f_id6 = selected_id - 3;
-					break;
-			}
-			if(f_id1<=0) f_id1=maxFemale+f_id1;
-			else if (f_id1>maxFemale) f_id1=f_id1-maxFemale;
-			if(f_id2<=0) f_id2=maxFemale+f_id2;
-			else if (f_id2>maxFemale) f_id2=f_id2-maxFemale;
-			if(f_id3<=0) f_id3=maxFemale+f_id3;
-			else if (f_id3>maxFemale) f_id3=f_id3-maxFemale;
-			if(f_id4<=0) f_id4=maxFemale+f_id4;
-			else if (f_id4>maxFemale) f_id4=f_id4-maxFemale;
-			if(f_id5<=0) f_id5=maxFemale+f_id5;
-			else if (f_id5>maxFemale) f_id5=f_id5-maxFemale;
-			if(f_id6<=0) f_id6=maxFemale+f_id6;
-			else if (f_id6>maxFemale) f_id6=f_id6-maxFemale;
-		}
-	}
-	return selected_id;
-}
-//kevin2 end
-//check if key is held down or released
-void glutKeyboardUp (unsigned char key, int x, int y)
-{
-	key_state[key] = false;
-}
-void keyupdate()
-{
-	
-	if (key_state['j']==true){
-		clockwiseTraversingIncrement = (double)rotateIncrement;
-		//printf_s("This is the degree traversed %d. \n", clockwiseTraversing);
-		cout << "The degree it is now at: ";
-		cout << clockwiseTraversing;
-		cout << endl;
-	}
-	else if (key_state['k']==true){
-		clockwiseTraversingIncrement = (double)(-rotateIncrement);
-	}
-
-	else if (camera->gesCtrl->GetGesture(1)->isDetected() == true) {
-		//take current clockwiseTraversing value and store it 
-		//tempValueTurnedA = clockwiseTraversing;
-		//printf_s("This is the degree traversed %d. \n", tempValueTurnedA);
-		clockwiseTraversingIncrement = (double)6;
-		//if current icons travelled for x amount distance
-		if (clockwiseTraversing < 124) {
-			//set it to false
-			camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
-		}
-		
-	}
-	//else if the waving right gesture is detected
-	else if (camera->gesCtrl->GetGesture(2)->isDetected() == true) {
-		clockwiseTraversingIncrement = (double)(-6);
-		if (clockwiseTraversing > 236) {
-			camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
-		}
-	}
-	else {
-		smoothWheelToCenter();
-	}
-}
-
-//Edwin 06032013
-void keyUpdateFromGesture() 
-{
-	/*
-	pseudocode
-	if wave left detected
-	turn wheel down for a certain amount of degrees
-	set the gesture detected boolean value to false
-	else if wave right detected
-	turn wheel up for a certain amount of degrees
-	set the gesture detected boolean value to false
-	else
-	smooth wheel to centre
-	*/
-
-	//edit accordingly
-	//if the waving left gesture is detected
-	
-	if (camera->gesCtrl->GetGesture(1)->isDetected() == true) {
-		clockwiseTraversingIncrement = (double)6;
-		//camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
-		//if current icons travelled for x amount distance
-		if (clockwiseTraversing < 150) {
-			camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
-		}
-		//set it to false
-	}
-	//else if the waving right gesture is detected
-	else if (camera->gesCtrl->GetGesture(2)->isDetected() == true) {
-		clockwiseTraversingIncrement = (double)(-6);
-		if (clockwiseTraversing > 236) {
-			camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
-		}
-		//camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
-	}
-	else {
-		//camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
-		//camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
-		smoothWheelToCenter();
-	}
-	
-}
-//end
-
-//wheel movements
-void moveWheel()
-{
-	//Middle center frame, Frame 1
-	//region nearest to center
-	if(clockwiseTraversing <= centerRegionUpperBound && clockwiseTraversing >= centerRegionLowerBound)
-	{
-		clockwiseTraversing -= clockwiseTraversingIncrement * offsetCenterMultiplier;
-		if (clockwiseTraversingIncrement > 0 && clockwiseTraversing < 180) {
-			//if direction down and is below center
-			if (fscale1 > fscaleMin) fscale1 -= 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing < 180) {
-			//if direction up and is below center
-			if (fscale1 < fscaleMax) fscale1 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement > 0 && clockwiseTraversing > 180) {
-			//if direction down and is above center
-			if (fscale1 < fscaleMax) fscale1 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing > 180) {
-			//if direction up and is above center
-			if (fscale1 > fscaleMin) fscale1 -= 0.1;
-		}
-		//check if old selection was adjacent frames, i.e if was previously frame3 above, go next	
-		if (fSelect==3){
-			scrollLeftButton(); //go next
-		}
-		else if (fSelect==4){
-			scrollRightButton(); //go prev
-		}
-		fSelect=1;
-	}
-	//region abit further from center
-	else if(clockwiseTraversing <= centerLargeRegionUpperBound && clockwiseTraversing >= centerLargeRegionLowerBound)
-	{
-		clockwiseTraversing -= clockwiseTraversingIncrement * offsetCenterLargeMultiplier;
-	}
-	//rest of region far from center
-	else
-	{
-		clockwiseTraversing -= clockwiseTraversingIncrement * normalMultiplier;
-	}
-	//check if frame at bottom of wheel needs to flip back to top, else vice versa
-	if (clockwiseTraversing <=rLowerBound)
-	{
-		clockwiseTraversing += rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id1 -= 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id1 -= 6;
-			}
-			else {
-				f_id1 -= 6;
-			}
-		}
-	}
-	else if(clockwiseTraversing >=rUpperBound)
-	{
-		clockwiseTraversing -= rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id1 += 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id1 += 6;
-			}
-			else {
-				f_id1 += 6;
-			}
-		}
-	}
-	//Two frames up from center, Frame 2
-	if(clockwiseTraversing2 <= centerRegionUpperBound && clockwiseTraversing2 >= centerRegionLowerBound)
-	{
-		clockwiseTraversing2 -= clockwiseTraversingIncrement * offsetCenterMultiplier;
-		if (clockwiseTraversingIncrement > 0 && clockwiseTraversing2 < 180) {
-			//if direction down and is below center
-			if (fscale2 > fscaleMin) fscale2 -= 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing2 < 180) {
-			//if direction up and is below center
-			if (fscale2 < fscaleMax) fscale2 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement > 0 && clockwiseTraversing2 > 180) {
-			//if direction down and is above center
-			if (fscale2 < fscaleMax) fscale2 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing2 > 180) {
-			//if direction up and is above center
-			if (fscale2 > fscaleMin) fscale2 -= 0.1;
-		}
-		//check if old selection was adjacent frames
-		if (fSelect==6){
-			scrollLeftButton(); //go next
-		}
-		else if (fSelect==3){
-			scrollRightButton(); //go prev
-		}
-		fSelect=2;
-	}
-	else if(clockwiseTraversing2 <= centerLargeRegionUpperBound && clockwiseTraversing2 >= centerLargeRegionLowerBound)
-	{
-		clockwiseTraversing2 -= clockwiseTraversingIncrement * offsetCenterLargeMultiplier;
-	}
-	else
-	{
-		clockwiseTraversing2 -= clockwiseTraversingIncrement * normalMultiplier;
-	}
-	if (clockwiseTraversing2 <=rLowerBound)
-	{
-		clockwiseTraversing2 += rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id2 -= 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id2 -= 6;
-			}
-			else {
-				f_id2 -= 6;
-			}
-		}
-	}
-	else if(clockwiseTraversing2 >=rUpperBound)
-	{
-		clockwiseTraversing2 -= rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id2 += 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id2 += 6;
-			}
-			else {
-				f_id2 += 6;
-			}
-		}
-	}
-	//One frame up from center, Frame 3
-	if(clockwiseTraversing3 <= centerRegionUpperBound && clockwiseTraversing3 >= centerRegionLowerBound)
-	{
-		clockwiseTraversing3 -= clockwiseTraversingIncrement * offsetCenterMultiplier;
-		if (clockwiseTraversingIncrement > 0 && clockwiseTraversing3 < 180) {
-			//if direction down and is below center
-			if (fscale3 > fscaleMin) fscale3 -= 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing3 < 180) {
-			//if direction up and is below center
-			if (fscale3 < fscaleMax) fscale3 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement > 0 && clockwiseTraversing3 > 180) {
-			//if direction down and is above center
-			if (fscale3 < fscaleMax) fscale3 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing3 > 180) {
-			//if direction up and is above center
-			if (fscale3 > fscaleMin) fscale3 -= 0.1;
-		}
-		//check if old selection was adjacent frames
-		if (fSelect==2){
-			scrollLeftButton(); //go next
-		}
-		else if (fSelect==1){
-			scrollRightButton(); //go prev
-		}
-		fSelect=3;
-	}
-	else if(clockwiseTraversing3 <= centerLargeRegionUpperBound && clockwiseTraversing3 >= centerLargeRegionLowerBound)
-	{
-		clockwiseTraversing3 -= clockwiseTraversingIncrement * offsetCenterLargeMultiplier;
-	}
-	else
-	{
-		clockwiseTraversing3 -= clockwiseTraversingIncrement * normalMultiplier;
-	}
-	if (clockwiseTraversing3 <=rLowerBound)
-	{
-		clockwiseTraversing3 += rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id3 -= 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id3 -= 6;
-			}
-			else {
-				f_id3 -= 6;
-			}
-		}
-	}
-	else if(clockwiseTraversing3 >=rUpperBound)
-	{
-		clockwiseTraversing3 -= rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id3 += 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id3 += 6;
-			}
-			else {
-				f_id3 += 6;
-			}
-		}
-	}
-	//One frame down from center, Frame4
-	if(clockwiseTraversing4 <= centerRegionUpperBound && clockwiseTraversing4 >= centerRegionLowerBound)
-	{
-		clockwiseTraversing4 -= clockwiseTraversingIncrement * offsetCenterMultiplier;
-		if (clockwiseTraversingIncrement > 0 && clockwiseTraversing4 < 180) {
-			//if direction down and is below center
-			if (fscale4 > fscaleMin) fscale4 -= 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing4 < 180) {
-			//if direction up and is below center
-			if (fscale4 < fscaleMax) fscale4 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement > 0 && clockwiseTraversing4 > 180) {
-			//if direction down and is above center
-			if (fscale4 < fscaleMax) fscale4 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing4 > 180) {
-			//if direction up and is above center
-			if (fscale4 > fscaleMin) fscale4 -= 0.1;
-		}
-		//check if old selection was adjacent frames
-		if (fSelect==1){
-			scrollLeftButton(); //go next
-		}
-		else if (fSelect==5){
-			scrollRightButton(); //go prev
-		}
-		fSelect=4;
-	}
-	else if(clockwiseTraversing4 <= centerLargeRegionUpperBound && clockwiseTraversing4 >= centerLargeRegionLowerBound)
-	{
-		clockwiseTraversing4 -= clockwiseTraversingIncrement * offsetCenterLargeMultiplier;
-	}
-	else
-	{
-		clockwiseTraversing4 -= clockwiseTraversingIncrement * normalMultiplier;
-	}
-	if (clockwiseTraversing4 <=rLowerBound)
-	{
-		clockwiseTraversing4 += rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id4 -= 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id4 -= 6;
-			}
-			else {
-				f_id4 -= 6;
-			}
-		}
-	}
-	else if(clockwiseTraversing4 >=rUpperBound)
-	{
-		clockwiseTraversing4 -= rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id4 += 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id4 += 6;
-			}
-			else {
-				f_id4 += 6;
-			}
-		}
-	}
-	//Two frames down from center, Frame5
-	if(clockwiseTraversing5 <= centerRegionUpperBound && clockwiseTraversing5 >= centerRegionLowerBound)
-	{
-		clockwiseTraversing5 -= clockwiseTraversingIncrement * offsetCenterMultiplier;
-		if (clockwiseTraversingIncrement > 0 && clockwiseTraversing5 < 180) {
-			//if direction down and is below center
-			if (fscale5 > fscaleMin) fscale5 -= 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing5 < 180) {
-			//if direction up and is below center
-			if (fscale5 < fscaleMax) fscale5 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement > 0 && clockwiseTraversing5 > 180) {
-			//if direction down and is above center
-			if (fscale5 < fscaleMax) fscale5 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing5 > 180) {
-			//if direction up and is above center
-			if (fscale5 > fscaleMin) fscale5 -= 0.1;
-		}
-		//check if old selection was adjacent frames
-		if (fSelect==4){
-			scrollLeftButton(); //go next
-		}
-		else if (fSelect==6){
-			scrollRightButton(); //go prev
-		}
-		fSelect=5;
-	}
-	else if(clockwiseTraversing5 <= centerLargeRegionUpperBound && clockwiseTraversing5 >= centerLargeRegionLowerBound)
-	{
-		clockwiseTraversing5 -= clockwiseTraversingIncrement * offsetCenterLargeMultiplier;
-	}
-	else
-	{
-		clockwiseTraversing5 -= clockwiseTraversingIncrement * normalMultiplier;
-	}
-	if (clockwiseTraversing5 <=rLowerBound)
-	{
-		clockwiseTraversing5 += rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id5 -= 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id5 -= 6;
-			}
-			else {
-				f_id5 -= 6;
-			}
-		}
-	}
-	else if(clockwiseTraversing5 >=rUpperBound)
-	{
-		clockwiseTraversing5 -= rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id5 += 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id5 += 6;
-			}
-			else {
-				f_id5 += 6;
-			}
-		}
-	}
-	//Three frames up from center, Frame6
-	if(clockwiseTraversing6 <= centerRegionUpperBound && clockwiseTraversing6 >= centerRegionLowerBound)
-	{
-		clockwiseTraversing6 -= clockwiseTraversingIncrement * offsetCenterMultiplier;
-		if (clockwiseTraversingIncrement > 0 && clockwiseTraversing6 < 180) {
-			//if direction down and is below center
-			if (fscale6 > fscaleMin) fscale6 -= 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing6 < 180) {
-			//if direction up and is below center
-			if (fscale6 < fscaleMax) fscale6 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement > 0 && clockwiseTraversing6 > 180) {
-			//if direction down and is above center
-			if (fscale6 < fscaleMax) fscale6 += 0.1;
-		}
-		else if (clockwiseTraversingIncrement < 0 && clockwiseTraversing6 > 180) {
-			//if direction up and is above center
-			if (fscale6 > fscaleMin) fscale6 -= 0.1;
-		}
-		//check if old selection was adjacent frames
-		if (fSelect==5){
-			scrollLeftButton(); //go next
-		}
-		else if (fSelect==2){
-			scrollRightButton(); //go prev
-		}
-		fSelect=6;
-	}
-	else if(clockwiseTraversing6 <= centerLargeRegionUpperBound && clockwiseTraversing6 >= centerLargeRegionLowerBound)
-	{
-		clockwiseTraversing6 -= clockwiseTraversingIncrement * offsetCenterLargeMultiplier;
-	}
-	else
-	{
-		clockwiseTraversing6 -= clockwiseTraversingIncrement * normalMultiplier;
-	}
-	if (clockwiseTraversing6 <=rLowerBound)
-	{
-		clockwiseTraversing6 += rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id6 -= 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id6 -= 6;
-			}
-			else {
-				f_id6 -= 6;
-			}
-		}
-	}
-	else if(clockwiseTraversing6 >=rUpperBound)
-	{
-		clockwiseTraversing6 -= rOffset;
-		//reassign icon id after flip
-		if(bBagIsActive){
-			b_id6 += 6;
-		}
-		else if(!bShowDress3D){
-			if (ismale){
-				m_id6 += 6;
-			}
-			else {
-				f_id6 += 6;
-			}
-		}
-	}
-}
-//end kevin functions
-
 //--------------------------------------------------------------
 void glutKeyboard (unsigned char key, int x, int y)
 //--------------------------------------------------------------
 {
-	//kevin
-	key_state[key] = true;
-	//end
 	static int counter =0;
 	HWND hWnd = FindWindowEx( NULL, NULL, L"IEFrame", NULL );
 	HWND hWnd1 = FindWindowEx( NULL, NULL, L"VideoRenderer", NULL );
 	int static dx = 0;
-	switch(key)
+	switch (key)
 	{
-		case 27:
-		case 'q':
-			//Commented by Mobeen
-			//This causes memory leak due to multiple deletions on exit 
-			//since the camera is deleted again in the close function
-			//Another solution is to set the deleted camera pointer to NULL
-			//after deletion.
-			//delete camera;
-			fnExit();
-			exit(0);
-			break;
-		case 'e':
-			//refresh internet explorer for facebook upload
-			//ShellExecute(NULL, L"open", L"http://www.edart.sg/htdocs/Test3.php", NULL, NULL, SW_FORCEMINIMIZE );
-			PostMessage(hWnd,WM_KEYDOWN,VK_F5,0);
-			break; 
-		case 's':
-			if(playvid){
-				playvid = false;
-			}else{
-				playvid = true; 
-			}
-			break;
-		case 'w':
-			//adjustment to display user in center of TV screen
-			//glutPositionWindow(-2030,-400);
-			glutPositionWindow(50, 0);
-			//set the size to large enugh to cover TV length and 
-			glutReshapeWindow((1280)/1.2*ar, (960)/1.2);//2.35
-			break;
+	case 27:
+		//Commented by Mobeen
+		//This causes memory leak due to multiple deletions on exit 
+		//since the camera is deleted again in the close function
+		//Another solution is to set the deleted camera pointer to NULL
+		//after deletion.
+		//delete camera;
+		fnExit();
+		exit (1);
+		break;
+	case 'e':
+		//refresh internet explorer for facebook upload
+		//ShellExecute(NULL, L"open", L"http://www.edart.sg/htdocs/Test3.php", NULL, NULL, SW_FORCEMINIMIZE );
+		PostMessage(hWnd,WM_KEYDOWN,VK_F5,0);
+		break; 
+	case 's':
+		if(playvid){
+			playvid = false;
+		}else{
+			playvid = true; 
+		}
+		break;
+	case 'f':
+		//adjustment to display user in center of TV screen
+		//glutPositionWindow(-2030,-400);
+		glutPositionWindow(-(750),-35);
+		//set the size to large enugh to cover TV length and 
+		glutReshapeWindow(1280*2, 960*2);//2.35
+		break;
 
-		case '/':
-			//adjustment to display user in center of TV screen
-			//glutPositionWindow(-2030,-400);
-			glutPositionWindow(600, 0);
-			//set the size to large enugh to cover TV length and 
-			glutReshapeWindow((1280)/1.2*ar, (960)/1.2);//2.35
-			break;
+	case 'n':
+		if(bShowBag && bBagIsActive)
+		{
+			mcloth->Update(MCLOTH_BAG_NEXT);
 
-		case 'n':
-			if(bShowBag && bBagIsActive)
-			{
-				mcloth->Update(MCLOTH_BAG_NEXT);
+		}
+		else if(bShowDress3D)
+			pCloth3D->ShowNextModel();	
+		else
+		{
+			mcloth->Update(MCLOTH_DRESS_NEXT);
 
-			}
-			else if(bShowDress3D)
-				pCloth3D->ShowNextModel();	
-			else
-			{
-				mcloth->Update(MCLOTH_DRESS_NEXT);
+		}
+		break;
 
-			}
-			break;
+	case 'b':
+		if(bShowBag && bBagIsActive)
+		{
+			mcloth->Update(MCLOTH_BAG_PREV);
 
-		case 'b':
-			if(bShowBag && bBagIsActive)
-			{
-				mcloth->Update(MCLOTH_BAG_PREV);
+		}
+		else if(bShowDress3D)
+			pCloth3D->ShowPreviousModel();	
+		else
+		{
+			mcloth->Update(MCLOTH_DRESS_PREV);
+		}
+		break;
 
-			}
-			else if(bShowDress3D)
-				pCloth3D->ShowPreviousModel();	
-			else
-			{
-				mcloth->Update(MCLOTH_DRESS_PREV);
-			}
-			break;
+	case 't': 
+		pCloth3D->ToggleTransparent(); 
+		break;
+	case 'v': 
+		//test play video 		
+		playVideo(); 
+		break;
+	case 'c':
+		//stop video 
+		PostMessage(hWnd1,WM_KEYDOWN,VK_ESCAPE,0);
+		break;
 
-		case 't': 
-			pCloth3D->ToggleTransparent(); 
-			break;
-		case 'v': 
-			//test play video 		
-			playVideo(); 
-			break;
-		case 'c':
-			//stop video 
-			PostMessage(hWnd1,WM_KEYDOWN,VK_ESCAPE,0);
-			break;
-
-		case ',':translate -=0.01f; break;
-		case '.':translate +=0.01f; break;
+	case ',':translate -=0.01f; break;
+	case '.':translate +=0.01f; break;
 	
-		case 'a':
-			++counter;
-			if(counter==1) {
-				time_t t = time(0);
-				struct tm * now = localtime( & t );
+	case 'a':
+		++counter;
+		if(counter==1) {
+			time_t t = time(0);
+			struct tm * now = localtime( & t );
 			 
-				sprintf(directory,"%slogs/%d%d%d",path, now->tm_mday,now->tm_mon+1,now->tm_year + 1900 );
-				//create directory only if it does not exists already
-				if(!DirectoryExists(directory)) {
-					DWORD dwNum = MultiByteToWideChar (CP_ACP, 0, directory, -1, NULL, 0);
-					wchar_t *pwText = new wchar_t[dwNum];
-					MultiByteToWideChar (CP_ACP, 0, directory, -1, pwText, dwNum );
-					CreateDirectory(pwText,NULL); 
-					delete [] pwText;
-				}
+			sprintf(directory,"%slogs/%d%d%d",path, now->tm_mday,now->tm_mon+1,now->tm_year + 1900 );
+			//create directory only if it does not exists already
+			if(!DirectoryExists(directory)) {
+				DWORD dwNum = MultiByteToWideChar (CP_ACP, 0, directory, -1, NULL, 0);
+				wchar_t *pwText = new wchar_t[dwNum];
+				MultiByteToWideChar (CP_ACP, 0, directory, -1, pwText, dwNum );
+				CreateDirectory(pwText,NULL); 
+				delete [] pwText;
 			}
-			sprintf(newpath, "%s/colorImage%d.jpg", directory, counter);
-			cvSaveImage(newpath, cImg);
+		}
+		sprintf(newpath, "%s/colorImage%d.jpg", directory, counter);
+		cvSaveImage(newpath, cImg);
 		
-			sprintf(newpath, "%s/depthImage%d.png", directory, counter);
-			cvSaveImage(newpath, dImg);
+		sprintf(newpath, "%s/depthImage%d.png", directory, counter);
+		cvSaveImage(newpath, dImg);
 		
-			sprintf(newpath, "%s/userImage%d.png", directory, counter);
-			cvSaveImage(newpath, uImg); 
-			break;
-			/*
-		case 'j':
-			clockwiseTraversingIncrement = (double)rotateIncrement;
-			break;
-		case 'k':
-			clockwiseTraversingIncrement = (double)(-rotateIncrement);
-			break;
-			*/
-		// ----------------------------------------------------
-		// Daryl Mcintyre - Keypress access to menu buttons
-		// ----------------------------------------------------
-			//------------
-			// Main Menu
-			//------------
-		case '1':
-			// View female clothes
-			frame2flag = false;
-			frame1flag = true;
-			femalebutton();
-			break;
-		case '2':
-			// View male clothes
-			frame2flag = false;
-			frame1flag = true;
-			malebutton();
-			break;
-		case '3':
-			// View bags
-			frame2flag = false;
-			frame1flag = true;
-			bagbutton();
-			break;
-		case '4':
-			// View 3D clothes
-			//frame2flag = false;
-			//frame1flag = true;
-			//button3D();
-			break;
-			//----------------------
-			// Browser Menu
-			//----------------------
-		case '5':
-			// Return to Main Menu
-			mainMenuButton();
-			break;
-		case '6':
-			// Item Information
-			infoButton();
-			break;
-		case '7':
-			// Scroll Left of item menu
-			scrollLeftButton();
-			break;
-		case '8':
-			// Scroll right of item menu
-			scrollRightButton();
-			break;
-		case '9':
-			// Photo Button
-			//photoButton();
-			break;
-		case '0':
-			// Makea recommmendation
-			recommendButton();
-			break;
-		//end
+		sprintf(newpath, "%s/userImage%d.png", directory, counter);
+		cvSaveImage(newpath, uImg); 
+		break;
+	
+	// ----------------------------------------------------
+	// Daryl Mcintyre - Keypress access to menu buttons
+	// ----------------------------------------------------
+	
+		//------------
+		// Main Menu
+		//------------
+	case '1':
+		// View female clothes
+		frame2flag = false;
+		frame1flag = true;
+		femalebutton();
+		break;
+	case '2':
+		// View male clothes
+		frame2flag = false;
+		frame1flag = true;
+		malebutton();
+		break;
+	case '3':
+		// View bags
+		frame2flag = false;
+		frame1flag = true;
+		bagbutton();
+		break;
+	case '4':
+		// View 3D clothes
+		frame2flag = false;
+		frame1flag = true;
+		button3D();
+		break;
+
+		//----------------------
+		// Browser Menu
+		//----------------------
+	case '5':
+		// Return to Main Menu
+		mainMenuButton();
+		break;
+	case '6':
+		// Item Information
+		infoButton();
+		break;
+	case '7':
+		// Scroll Left of item menu
+		scrollLeftButton();
+		break;
+	case '8':
+		// Scroll right of item menu
+		scrollRightButton();
+		break;
+	case '9':
+		// Photo Button
+		photoButton();
+		break;
+	case '0':
+		// Makea recommmendation
+		recommendButton();
+		break;
 	}
+	// ----------------------------------------------------
 }
 
 const float TIMEOUT = 1000*10;//0.5f*60*60*1000;
@@ -4127,19 +2743,9 @@ void glutIdle (void)
 //----------------------------------------------------------------
 {
 	//printf("glutIdle");
-
+	
 	static float start = glutGet(GLUT_ELAPSED_TIME);
 	float current = glutGet(GLUT_ELAPSED_TIME);
-
-	
-
-	//kevin
-	keyupdate();
-	//end
-
-	//Edwin 06032013
-	//keyUpdateFromGesture();
-	//end
 
 	if((current-start) > TIMEOUT) {
 		//save stats
@@ -4245,12 +2851,8 @@ void InitGL() {
 		glBindTexture(GL_TEXTURE_2D, bgTexID);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//kevin
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-		//end
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);		
 		glTexImage2D( GL_TEXTURE_2D, 0, internalFormat, COLOR_RES_X, COLOR_RES_Y, 0, format, GL_UNSIGNED_BYTE, bgImage->imageData);
 	//Delete the OpenCV image
 	cvReleaseImage(&bgImage);
@@ -4327,7 +2929,7 @@ void main(int argc, char* argv[])
 	set_timer();
 
 	//-------------
-//	g_Capture = cvCaptureFromAVI("C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/Screensaver.mov");
+//	g_Capture = cvCaptureFromAVI("C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/Screensaver.mov");
 
 	detail1 = frame1 = frame2 = frame3 = NULL;
 	frame2flag = true; //categories
@@ -4344,23 +2946,23 @@ void main(int argc, char* argv[])
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
-		/*		
-	datad1 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/detail1.png",
+				
+/*	datad1 = SOIL_load_image(
+				"C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/detail1.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datad2 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/detail2.png",
+				"C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/detail2.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
 	datadbag = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/detail3.png",
+				"C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/detail3.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
-	*/
+*/
 	dataf1c =  SOIL_load_image(
 				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/interfaceclothes.png",
 				&width,&height,&nchannels
@@ -4377,7 +2979,7 @@ void main(int argc, char* argv[])
 				,SOIL_LOAD_AUTO
 				);
 	dataf2 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/Categories.png",
+				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/categories.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
@@ -4421,6 +3023,23 @@ void main(int argc, char* argv[])
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
+//NEW 240113
+/*	datacount1 = SOIL_load_image(
+				"C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/count1.png",
+				&width,&height,&nchannels
+				,SOIL_LOAD_AUTO
+				);
+	datacount2 = SOIL_load_image(
+				"C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/count2.png",
+				&width,&height,&nchannels
+				,SOIL_LOAD_AUTO
+				);
+	datacount3 = SOIL_load_image(
+				"C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Pictures/count3.png",
+				&width,&height,&nchannels
+				,SOIL_LOAD_AUTO
+				);
+*/
 
 	//By SF
 	dataDefault =	SOIL_load_image(
@@ -4612,23 +3231,42 @@ void main(int argc, char* argv[])
 					);
 //END
 
-	/*
-	datacount1 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/count1.png",
+	datap2 = SOIL_load_image(
+				"../KinectSDK/screenshot.jpg",
+				&width1,&height1,&nchannels1
+				,SOIL_LOAD_AUTO
+				);
+	datafinger = SOIL_load_image(
+				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/circle0.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
-	datacount2 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/count2.png",
+	datafinger1 = SOIL_load_image(
+				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/circle1.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
-	datacount3 = SOIL_load_image(
-				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/count3.png",
+	datafinger2 = SOIL_load_image(
+				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/circle2.png",
 				&width,&height,&nchannels
 				,SOIL_LOAD_AUTO
 				);
-	*/
+	datafinger3 = SOIL_load_image(
+				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/circle3.png",
+				&width,&height,&nchannels
+				,SOIL_LOAD_AUTO
+				);
+	datafinger4 = SOIL_load_image(
+				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/circle4.png",
+				&width,&height,&nchannels
+				,SOIL_LOAD_AUTO
+				);
+	datasaving1 = SOIL_load_image(
+				"C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Pictures/uploadsuccessful.png",
+				&width,&height,&nchannels
+				,SOIL_LOAD_AUTO
+				);
+
 	/*
 	//load the details of bags
 	for(int i=0;i<NUM_BAGS;i++) {
@@ -4652,9 +3290,6 @@ void main(int argc, char* argv[])
 	glutSetCursor(GLUT_CURSOR_NONE);
 
 	glutKeyboardFunc(glutKeyboard);
-	//kevin
-	glutKeyboardUpFunc(glutKeyboardUp);
-	//end
 	glutSpecialFunc(glutSpecialKey);
 	glutDisplayFunc(glutDisplay);
 	glutIdleFunc(glutIdle);
@@ -4691,7 +3326,7 @@ void main(int argc, char* argv[])
 	//}
 
 	/*
-	pCloth3D->LoadObjMesh("C:/Users/Edwin Tan/Desktop/MagicMirror_Data_M1560210/Data/Models/Garment1/Garment1.obj");  
+	pCloth3D->LoadObjMesh("C:/Users/user/Desktop/I2RStuff/MagicMirror_Data_M1560210/Data/Models/Garment1/Garment1.obj");  
 	pCloth3D->InitReferenceValues();
 
 	for(int i=0;i<NUM_3DCLOTHES;i++) {
@@ -4710,22 +3345,10 @@ void main(int argc, char* argv[])
 	NUM_BAGS=mcloth->GetNumBags();
 	NUM_3DCLOTHES = pCloth3D->GetNumDresses();
 	// Setup the OpenGL projection matrix
-	//kevin2 start
-	maxBags = mcloth->NUM_BAGS;
-	maxMale = mcloth->NUM_DRESSES_MALE;
-	maxFemale = mcloth->NUM_DRESSES_FEMALE;
-	b_id1=mcloth->GetBagId();
-	m_id1=f_id1=mcloth->GetGarmentId();
-	checkfSelect();
-	loadicons();
-	//kevin2 end
-	//kevin edited
-	//Aspect ratio fix
-	ar = glutGet( GLUT_WINDOW_WIDTH ) / (double)glutGet( GLUT_WINDOW_HEIGHT );
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0, COLOR_RES_X *ar, COLOR_RES_Y, 0, -1.0, 1.0);
-	//end
+	
+	glOrtho(0, COLOR_RES_X, COLOR_RES_Y, 0, -1.0, 1.0);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

@@ -52,7 +52,7 @@ void Gesture::detectGestureParts(Skeleton *data)
 		break;
 	}	
 }
-
+//stub. Won't be using anymore
 void Gesture::UpdateGesture(Skeleton *data) 
 {
 	
@@ -80,10 +80,10 @@ void Gesture::UpdateGesture(Skeleton *data)
 
 	//if both gesture parts return success
 	if (intGestureResult == 2 && intGestureResult2 ==2) {
-		gesRcv.hookEvent(&gesSrc);
+		//gesRcv.hookEvent(&gesSrc);
 		//call the event handler here
-		__raise gesSrc.GestureRecognised(theGestureType);
-		gesRcv.unhookEvent(&gesSrc);
+		//__raise gesSrc.GestureRecognised(theGestureType);
+		//gesRcv.unhookEvent(&gesSrc);
 		//reset the gesture
 		Reset();
 	}
@@ -108,7 +108,7 @@ void Gesture::UpdateGesture(Skeleton *data)
 	}
 }
 
-//will be using this method
+//will be using this method, as it has got the frame counter argument as reference
 void Gesture::UpdateGesture(Skeleton *data, int frames) 
 {
 	//instantiate gesture parts results first. 0-fail, 1-pausing, 2-success

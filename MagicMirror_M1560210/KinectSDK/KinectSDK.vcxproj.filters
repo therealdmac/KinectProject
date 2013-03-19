@@ -14,7 +14,7 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Segments">
-      <UniqueIdentifier>{83f630d8-6852-4bd8-9a00-0ac12ab8fab8}</UniqueIdentifier>
+      <UniqueIdentifier>{f4961e39-f3e9-4c35-a040-f2e4ed986771}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,22 +33,25 @@
     <ClCompile Include="gui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GestureReceiver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GestureSource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Segments\WaveLeftSegments.cpp">
-      <Filter>Segments</Filter>
-    </ClCompile>
     <ClCompile Include="Gesture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GestureController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Segments\WaveLeftSegments.cpp">
+      <Filter>Segments</Filter>
+    </ClCompile>
     <ClCompile Include="Segments\WaveRightSegments.cpp">
+      <Filter>Segments</Filter>
+    </ClCompile>
+    <ClCompile Include="GestureReceiver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GestureSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Segments\SwipeDownSegments.cpp">
       <Filter>Segments</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,16 +83,19 @@
     <ClInclude Include="GestureController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Segments\WaveLeftSegments.h">
+      <Filter>Segments</Filter>
+    </ClInclude>
+    <ClInclude Include="Segments\WaveRightSegments.h">
+      <Filter>Segments</Filter>
+    </ClInclude>
     <ClInclude Include="GestureReceiver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GestureSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Segments\WaveLeftSegments.h">
-      <Filter>Segments</Filter>
-    </ClInclude>
-    <ClInclude Include="Segments\WaveRightSegments.h">
+    <ClInclude Include="Segments\SwipeDownSegments.h">
       <Filter>Segments</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,8 +20,6 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>false</UseOfMfc>
-    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -60,13 +58,10 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../Debug;../3rdParty/ffmpeg/lib;C:\Program Files\Microsoft SDKs\Kinect\v1.5\lib\x86;C:\OpenCV2.1\lib;../3rdParty/glew-1.7.0/lib;../3rdParty/freeglut-2.8.0/lib/x86/Debug;../I2R_Include;C:\Users\Edwin Tan\Desktop\MagicMirror_M1560210\KinectSDK\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\user\Desktop\I2RStuff\MagicMirror_M1560210\Debug;../3rdParty/ffmpeg/lib;C:\Program Files\Microsoft SDKs\Kinect\v1.5\lib\x86;C:\OpenCV2.1\lib;../3rdParty/glew-1.7.0/lib;../3rdParty/freeglut-2.8.0/lib/x86/Debug;../I2R_Include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SOIL.lib;Kinect10.lib;cv210.lib;cvaux210.lib;cxcore210.lib;highgui210.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;swscale.lib;tinyxml_lib.lib;C:/Users/Edwin Tan/Desktop/MagicMirror_M1560210/Debug/MCloth2D.lib;C:/Users/Edwin Tan/Desktop/MagicMirror_M1560210/Debug/MCloth3D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
-    <ProjectReference>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -96,6 +91,7 @@
     <ClCompile Include="GestureSource.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Segments\SwipeDownSegments.cpp" />
     <ClCompile Include="Segments\WaveLeftSegments.cpp" />
     <ClCompile Include="Segments\WaveRightSegments.cpp" />
     <ClCompile Include="skeleton.cpp" />
@@ -109,6 +105,7 @@
     <ClInclude Include="GestureReceiver.h" />
     <ClInclude Include="GestureSource.h" />
     <ClInclude Include="gui.h" />
+    <ClInclude Include="Segments\SwipeDownSegments.h" />
     <ClInclude Include="Segments\WaveLeftSegments.h" />
     <ClInclude Include="Segments\WaveRightSegments.h" />
     <ClInclude Include="skeleton.h" />

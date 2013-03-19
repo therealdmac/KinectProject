@@ -12,6 +12,8 @@ WaveLeftSegments::WaveLeftSegments() {
 	numParts = 2;
 	part1Success = false;
 	part2Success = false;
+	frameCapturedPart1 = 0;
+	frameCapturedPart2 = 0;
 }
 
 int WaveLeftSegments::waveleftsegment1(Skeleton *skel){
@@ -62,6 +64,16 @@ bool WaveLeftSegments::IsSegment1Detected()
 bool WaveLeftSegments::IsSegment2Detected()
 {
 	return part2Success;
+}
+
+void WaveLeftSegments::setDetectedCapturedFrame1(int dFrame)
+{
+	frameCapturedPart1 = dFrame;
+}
+
+void WaveLeftSegments::setDetectedCapturedFrame2(int dFrame)
+{
+	frameCapturedPart2 = dFrame;
 }
 
 

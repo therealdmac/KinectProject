@@ -488,7 +488,8 @@ double CameraKinect::GetFrameRate()
 	//update all the gestures in gesture controller for all frames
 	gesCtrl->UpdateAllGestures2(skel, nFrames);
 	
-	if(t_elapsed >= 5000)
+	//if time elapsed is longer than the no of seconds 
+	if(t_elapsed >= 15000)//5000
 	{		
 		double fps = (double) nFrames / t_elapsed * 1000;
 		t_start = t_end;

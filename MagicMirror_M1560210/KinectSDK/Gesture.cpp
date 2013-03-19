@@ -20,6 +20,8 @@ Gesture::Gesture(int type)
 		wavLeft = new WaveLeftSegments();
 	} else if (theGestureType == 2) {
 		wavRight = new WaveRightSegments();
+	} else if (theGestureType == 3) {
+		swipeDown = new SwipeDownSegments();
 	}
 
 	/*
@@ -48,6 +50,10 @@ void Gesture::detectGestureParts(Skeleton *data)
 			wavRight->waveRightSegment1(data);
 			wavRight->waveRightSegment2(data);
 		break;
+		case 3:
+			swipeDown->swipeDownSegment1(data);
+			swipeDown->swipeDownSegment2(data);
+			swipeDown->swipeDownSegment3(data);
 		default:
 		break;
 	}	
@@ -123,10 +129,8 @@ void Gesture::UpdateGesture(Skeleton *data, int frames)
 	
 	//add more gesture parts if child gesture has more methods
 
-	if (frames < 35) {
-
-		switch (theGestureType) {
-		case 1:
+	switch (theGestureType) {
+	case 1:
 
 		if (wavLeft->part1Success) {
 			gesturePartNum.push(1);
@@ -167,10 +171,22 @@ void Gesture::UpdateGesture(Skeleton *data, int frames)
 			}
 		}
 		break;
+
+		case 3:
+
+		if (swipeDown->part1Success) {
+			if (swipeDown->part2Success) {
+				if (swipeDown->part3Success) {
+					detected = true;
+					printf_s("Swiping Down gesture detected at frame %d. \n", frames);
+					Reset();
+				}
+			}
+		}
+		break;
+
 		default:
 		break;
-		}
-	
 	}
 	
 }
@@ -189,6 +205,10 @@ void Gesture::Reset()
 	} else if (theGestureType == 2) {
 		wavRight->part1Success = false;
 		wavRight->part2Success = false;
+	} else if (theGestureType == 3) {
+		swipeDown->part1Success = false;
+		swipeDown->part2Success = false;
+		swipeDown->part3Success = false;
 	}
 	//for testing - comment off for testing
 	//detected = false;
@@ -239,7 +259,6 @@ void Gesture::InitializeInstanceFields()
 	pausedFrameCount = 10;
 	frameCount = 0;
 	paused = false;
-	//type = None ;
 	detected = false;
 	detectpartnum = 0;
 	detectpartnum2 = 0;

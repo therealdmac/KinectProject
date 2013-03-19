@@ -23,10 +23,11 @@ Build the code
 
 To use:
 
-Add all the relevant header files inside stdafx.h
-Create a gesture controller object in the cameraKinect.cpp(not necessary)
+Add all the relevant header files inside stdafx.h(VERY IMPORTANT)(PLEASE ADD THE HEADER FILES IF SOME OF THEM
+ARE MISSING)
+Create a gesture controller object in the cameraKinect.cpp(not necessary, already done)
 Add the function gestureController->UpdateAllGestures2(Skeleton *data) inside the internal Kinect class
-where frames are constantly being updated(fps).(not necessary)
+where frames are constantly being updated(fps).(not necessary, already done)
 
 ...
 

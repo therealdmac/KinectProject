@@ -12,13 +12,15 @@ WaveRightSegments::WaveRightSegments() {
 	numParts = 2;
 	part1Success = false;
 	part2Success = false;
+	frameCapturedPart1 = 0;
+	frameCapturedPart2 = 0;
 }
 
 int WaveRightSegments::waveRightSegment1(Skeleton *skel){
-	// hand above elbow
+	// hand above shoulder
 	if (skel->handR.y > skel->shoulderR.y)//y
 	{
-		// hand right of elbow
+		// hand right of shoulder
 		if (skel->handR.x > skel->shoulderR.x)//x
 		{
 			part1Success = true;
@@ -33,13 +35,13 @@ int WaveRightSegments::waveRightSegment1(Skeleton *skel){
 	return 0;//fail
 }
 
-//left palm is at the right side of elbow
+//left palm is at the right side of shoulder
 
 int WaveRightSegments::waveRightSegment2(Skeleton *skel){
-	// hand above elbow
+	// hand above shoulder
 	if (skel->handR.y > skel->shoulderR.y)//y
 	{
-	// hand right of elbow
+	// hand right of shoulder
 		if (skel->handR.x < skel->shoulderR.x)//x
 		{
 			part2Success = true;
@@ -62,4 +64,14 @@ bool WaveRightSegments::IsSegment1Detected()
 bool WaveRightSegments::IsSegment2Detected()
 {
 	return part2Success;
+}
+
+void WaveRightSegments::setDetectedCapturedFrame1(int dFrame)
+{
+	frameCapturedPart1 = dFrame;
+}
+
+void WaveRightSegments::setDetectedCapturedFrame2(int dFrame)
+{
+	frameCapturedPart2 = dFrame;
 }

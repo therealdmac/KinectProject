@@ -13,6 +13,8 @@ public:
 	int numParts;
 	bool part1Success;
 	bool part2Success;
+	int frameCapturedPart1;
+	int frameCapturedPart2;
 	
 	//constructors & destructors
 	WaveRightSegments();
@@ -24,4 +26,7 @@ public:
 
 	bool IsSegment1Detected();
 	bool IsSegment2Detected();
+
+	void setDetectedCapturedFrame1(int dFrame);
+	void setDetectedCapturedFrame2(int dFrame);
 };

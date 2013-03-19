@@ -84,9 +84,9 @@ public:
 	//gesture controller obj
 	GestureController *gesCtrl;
 
-	//gesture event handlers-source and receivers
-	GestureReceiver gesRcv;
-	GestureSource gesSrc;
+	//gesture event handlers-source and receivers - not needed anymore
+	//GestureReceiver gesRcv;
+	//GestureSource gesSrc;
 
 	//non-negative if user detected
 	int	currentUser;	

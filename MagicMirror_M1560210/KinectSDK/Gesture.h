@@ -2,10 +2,11 @@
 
 //#include "IRelativeGestureSegment.h"
 //#include "GestureEnumTypes.h"
-#include "GestureSource.h"
-#include "GestureReceiver.h"
+//#include "GestureSource.h"
+//#include "GestureReceiver.h"
 #include "Segments\WaveLeftSegments.h"
 #include "Segments\WaveRightSegments.h"
+#include "Segments\SwipeDownSegments.h"
 #include <vector>
 #include <queue>
 
@@ -25,6 +26,7 @@ private:
 
 	WaveLeftSegments *wavLeft;
 	WaveRightSegments *wavRight;
+	SwipeDownSegments *swipeDown;
 	//include other specific gesture classes here
 
 	/// <summary>

@@ -355,10 +355,9 @@ int f_height[100];
 int f_nchannels[100];
 //end kevin2 vars
 
-//Edwin values
-double tempValueTurnedA = 0.0;
-double tempValueTurnedB = 0.0;
-//end Edwin
+//Edwin variables 20032013
+int spinningWheelCounter = 0;
+//end Edwin variables
 
 
 //Removed by CCL- we will allocate these fixed size
@@ -1093,6 +1092,7 @@ void UpdateTime() {
 	
 }
 
+//method where the static hand detection is implemented
 //-------------------------------------------------------------------------------------------------------------------
 void gui()
 //-------------------------------------------------------------------------------------------------------------------
@@ -2399,10 +2399,6 @@ void glutDisplay (void)
 	//kevin keypress
 	keyupdate();
 	//end
-	
-	//Edwin 06032013
-	//keyUpdateFromGesture();
-	//end
 
 	cnt++;
 	//print memory info. every 100 frames
@@ -2652,7 +2648,7 @@ void glutDisplay (void)
 						DrawBG(dataWDefault);//dataWDefault
 				}
 			}
-
+			
 			//kevin wheel frames start
 			glMatrixMode(GL_MODELVIEW);
 			glPushMatrix();
@@ -2704,7 +2700,7 @@ void glutDisplay (void)
 			//move wheel
 			moveWheel();
 		//end kevin wheel frames
-
+			
 		}
 		else {
 			if (showPanel) {
@@ -3430,34 +3426,46 @@ void keyupdate()
 	
 	if (key_state['j']==true){
 		clockwiseTraversingIncrement = (double)rotateIncrement;
-		//printf_s("This is the degree traversed %d. \n", clockwiseTraversing);
+		/*for testing only
 		cout << "The degree it is now at: ";
 		cout << clockwiseTraversing;
-		cout << endl;
+		cout << endl;*/
 	}
 	else if (key_state['k']==true){
 		clockwiseTraversingIncrement = (double)(-rotateIncrement);
 	}
 
 	else if (camera->gesCtrl->GetGesture(1)->isDetected() == true) {
-		//take current clockwiseTraversing value and store it 
-		//tempValueTurnedA = clockwiseTraversing;
-		//printf_s("This is the degree traversed %d. \n", tempValueTurnedA);
 		clockwiseTraversingIncrement = (double)6;
-		//if current icons travelled for x amount distance
-		if (clockwiseTraversing < 124) {
+		spinningWheelCounter++;
+		//if past certain counter
+		if (spinningWheelCounter > 20) {
 			//set it to false
 			camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
+			spinningWheelCounter = 0;
 		}
 		
 	}
 	//else if the waving right gesture is detected
 	else if (camera->gesCtrl->GetGesture(2)->isDetected() == true) {
 		clockwiseTraversingIncrement = (double)(-6);
-		if (clockwiseTraversing > 236) {
+		spinningWheelCounter++;
+		if (spinningWheelCounter > 20) {//236
 			camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
+			spinningWheelCounter = 0;
 		}
 	}
+
+	else if (camera->gesCtrl->GetGesture(3)->isDetected() == true) {
+		clockwiseTraversingIncrement = (double)(12);
+		spinningWheelCounter++;
+		if (spinningWheelCounter > 40) {//236
+			camera->gesCtrl->GetGesture(3)->alterDetectedVal(false);
+			spinningWheelCounter = 0;
+		}
+	}
+
+	
 	else {
 		smoothWheelToCenter();
 	}
@@ -3482,19 +3490,23 @@ void keyUpdateFromGesture()
 	//if the waving left gesture is detected
 	
 	if (camera->gesCtrl->GetGesture(1)->isDetected() == true) {
-		clockwiseTraversingIncrement = (double)6;
+		clockwiseTraversingIncrement = (double)2;
 		//camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
 		//if current icons travelled for x amount distance
-		if (clockwiseTraversing < 150) {
+		spinningWheelCounter++;
+		if (spinningWheelCounter >= 1) {//150
 			camera->gesCtrl->GetGesture(1)->alterDetectedVal(false);
+			spinningWheelCounter = 0;
 		}
 		//set it to false
 	}
 	//else if the waving right gesture is detected
 	else if (camera->gesCtrl->GetGesture(2)->isDetected() == true) {
-		clockwiseTraversingIncrement = (double)(-6);
-		if (clockwiseTraversing > 236) {
+		clockwiseTraversingIncrement = (double)(-2);
+		spinningWheelCounter++;
+		if (spinningWheelCounter >= 1) {
 			camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
+			spinningWheelCounter = 0;
 		}
 		//camera->gesCtrl->GetGesture(2)->alterDetectedVal(false);
 	}

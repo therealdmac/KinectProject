@@ -23,6 +23,7 @@ GestureController::GestureController()
 	//add the gestures here. More gestures to be added later
 	AddGesture(1);
 	AddGesture(2);
+	AddGesture(3);
 	
 }
 //is called in some internal Kinect camera/skeleton class where frame runs are involved
@@ -76,7 +77,7 @@ std::vector<Gesture*> GestureController::getGestureList() {
 void GestureController::GestureIsRecognized(int gesType)
 {
 	//raise the event 
-	__raise gesSrc.GestureRecognised(gesType);
+	//__raise gesSrc.GestureRecognised(gesType);
 	//reset all the gestures
 	for (std::vector<Gesture*>::const_iterator g = this->gestures.begin(); g != this->gestures.end(); ++g)
 	{

@@ -12,6 +12,7 @@ struct vector6
 class Skeleton
 {
 public:
+	//due to system bugs, only hands, shoulders, hips and head are tracked
 	vector6 shoulderL, shoulderR, shoulderC;
 	vector6 hipL, hipR, hipC;
 	//vector6 elbowL, elbowR;//

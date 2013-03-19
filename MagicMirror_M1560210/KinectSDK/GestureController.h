@@ -27,8 +27,8 @@ public:
 	/// </summary>
 	///	public event EventHandler<GestureEventArgs> GestureRecognized;
 	/// above is unusable in native C++. we will be using these handlers instead
-	GestureSource gesSrc;
-	GestureReceiver gesRcv;
+	//GestureSource gesSrc;
+	//GestureReceiver gesRcv;not needed already
 
 	/// <summary>
 	/// Updates all gestures.
